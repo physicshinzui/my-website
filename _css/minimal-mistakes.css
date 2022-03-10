@@ -4544,14 +4544,14 @@ a.reversefootnote:hover {
   .sidebar {
     float: left;
     width: calc(200px - 1em);
-    opacity: 0.75;
+    /* opacity: 1.0; */
     -webkit-transition: opacity 0.2s ease-in-out;
     transition: opacity 0.2s ease-in-out;
   }
 
-  .sidebar:hover {
-    opacity: 1;
-  }
+  /* .sidebar:hover {
+    opacity: 10;
+  } */
 
   .sidebar.sticky {
     overflow-y: auto;
@@ -4662,8 +4662,8 @@ a.reversefootnote:hover {
 }
 
 .author__avatar img {
-  max-width: 110px;
-  border-radius: 50%;
+  min-width: 100%;
+  border-radius: 80%;
 }
 
 @media (min-width: 64em) {

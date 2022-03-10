@@ -21,8 +21,7 @@ Cryptic binding sites are binding sites that are transiently formed in an apo fo
 Intrinsically disordered proteins (IDPs) are the proteins that do not form a well-defined tertially structure. As a model protein, we investigated p53 C-terminal domain (p53 CTD). Firstly, we examined the effects of acetylation on p53 CTD's conformational ensemble via an enhanced-sampling MD simulations and circular dichroism spectrosocpy.[^2] We found that the acetylation increases the helical propensity of p53 CTD, which appeared preferable for binding to a certain proteins. Our study proposed a switching mechanism by acetylation in terms of atomistic picture. 
 
 
-
-
+## References
 [^1]: **S. Iida**, H. K. Nakamura, T. Mashimo, Y. Fukunishi ["Structural Fluctuations of Aromatic Residues in an Apo-Form Reveal Cryptic Binding Sites: Implications for Fragment-based Drug Design" ](https://pubs.acs.org/doi/abs/10.1021/acs.jpcb.0c04963)**2020**, 124, 45, 9977–9986 *Journal of Physical Chemistry B*, DOI: 10.1021/acs.jpcb.0c04963
 
 [^2]: **S. Iida**, T. Mashimo, T. Kurosawa, H. Hojo, H. Muta, Y. Goto, Y. Fukunishi, H. Nakamura, J. Higo ["Variation of Free-energy Landscape of the p53 C-terminal Domain Induced by Acetylation: Enhanced Conformational Sampling" ](https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.24494)**2016** *Journal of Computational Chemistry*, 37, 2687–2700 DOI: 10.1002/jcc.24494
