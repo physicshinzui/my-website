@@ -4098,6 +4098,11 @@ a.reversefootnote:hover {
   position: relative;
 }
 
+/* shinji added */
+.archive__item_flex {
+  display: flex; align-items: center; flex-direction: column;
+}
+
 .archive__subtitle {
   margin: 1.414em 0 0;
   padding-bottom: 0.5em;
