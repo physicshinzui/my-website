@@ -2,20 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>https://physicshinzui.github.io/notebooks/howtoselenium/index.html</loc>
-    <lastmod>2021-12-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>https://physicshinzui.github.io/notebooks/model_loop/index.html</loc>
-    <lastmod>2021-12-17</lastmod>
+    <loc>https://physicshinzui.github.io/notebooks/python/howtoselenium/index.html</loc>
+    <lastmod>2022-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://physicshinzui.github.io/profile/index.html</loc>
-    <lastmod>2022-03-08</lastmod>
+    <lastmod>2022-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -39,7 +33,13 @@
 </url>
 <url>
     <loc>https://physicshinzui.github.io/notes/index.html</loc>
-    <lastmod>2021-12-17</lastmod>
+    <lastmod>2022-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://physicshinzui.github.io/notebooks/modelling/model_loop/index.html</loc>
+    <lastmod>2022-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

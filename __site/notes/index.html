@@ -43,7 +43,7 @@
           <li class="masthead__menu-item"><a href="/profile" >About Me</a></li>
           <li class="masthead__menu-item"><a href="/research" >Research</a></li>
           <li class="masthead__menu-item"><a href="/publications" >Publications</a></li>
-          <!--- <li class="masthead__menu-item"><a href="/notes" >Notes</a></li> -->
+          <li class="masthead__menu-item"><a href="/notes" >Notes</a></li>
           <!-- <li class="masthead__menu-item"><a href="/lecture" >Seminar/Lecture</a></li> -->
         </ul>
         <button class="greedy-nav__toggle hidden" type="button">
@@ -75,6 +75,8 @@
               <li><a href="https://github.com/physicshinzui" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
               <li><a href="https://scholar.google.co.jp/citations?user=p09KwG8AAAAJ&hl=en" rel="nofollow noopener noreferrer"><img src="/assets/google-scholar.png" alt="gscholar" style="width: 1vw; min-width: 15px;"></i> Google Scholar</a></li>
               <li><a href="https://twitter.com/_siida_" rel="nofollow noopener noreferrer"><img src="/assets/icons8-twitter.svg" alt="twitter" style="width: 1vw; min-width: 20px;"></i> Twitter </a></li>
+              <li><a href="https://hub.docker.com/u/shinjiiida" rel="nofollow noopener noreferrer"><img src="/assets/Moby-logo.png" alt="docker" style="width: 1vw; min-width: 20px;"></i> DockerHub </a></li>
+
             </ul>
           </div>
         </div>
@@ -82,19 +84,29 @@
 
 <!-- Content appended here -->
 <div class="franklin-content"><h1 id="notes"><a href="#notes" class="header-anchor">Notes</a></h1>
-<h2 id="python"><a href="#python" class="header-anchor">Python</a></h2>
-<ul>
-<li><p><a href="/notebooks/howtoselenium">Automate web scraping</a></p>
-</li>
-</ul>
+<p>All contents are under <a href="https://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a> unless specified.</p>
 <h2 id="biomolecular_modelling"><a href="#biomolecular_modelling" class="header-anchor">Biomolecular modelling</a></h2>
 <ul>
-<li><p><a href="/notebooks/model_loop">An easy way to model missing loop of a protein</a></p>
+<li><p><a href="/notebooks/modelling/model_loop">An easy way to model missing loop of a protein</a></p>
+</li>
+</ul>
+<h2 id="julia"><a href="#julia" class="header-anchor">Julia</a></h2>
+<h2 id="python"><a href="#python" class="header-anchor">Python</a></h2>
+<ul>
+<li><p><a href="/notebooks/python/howtoselenium">Automate web scraping</a></p>
+</li>
+</ul>
+<h2 id="gist"><a href="#gist" class="header-anchor">Gist</a></h2>
+<ul>
+<li><p><a href="https://gist.github.com/physicshinzui/9f21c74be62504f32ad8412a87a69ba3">Generate a linear amino-acid sequence</a></p>
+</li>
+<li><p><a href="https://gist.github.com/physicshinzui/2a6475e0131c4bf138e80634106c907e">Relative SASA calculation by PyMOL</a></p>
 </li>
 </ul>
 <div class="page-foot">
   <div class="copyright">
-    &copy; Shinji Iida. Last modified: March 10, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    <!-- &copy; {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}} -->
+    Written by Shinji Iida. Last modified: March 10, 2022
   </div>
 </div>
 </div><!-- CONTENT ENDS HERE -->
@@ -109,12 +121,13 @@
 
           <a href="https://scholar.google.co.jp/citations?user=p09KwG8AAAAJ&hl=en" rel="nofollow noopener noreferrer">
             <img src="/assets/google-scholar.png" alt="gscholar" style="width: 1vw; min-width: 10px;"> 
-            My page on Google Scholar.
+            Google Scholar.
           </a>
 
           <h>
             Email: s-iida[at]protein.osaka-u.ac.jp.
           </h>
+
 
           <a href="https://github.com/tlienart/Franklin.jl">
             Powered by 

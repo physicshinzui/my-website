@@ -39,8 +39,3 @@ MSc, Department of Biological Sciences, **Osaka university**
 **April 2009 - March 2013**
 
 BSc, Department of Physics, **Tokyo University of Science**
-
-## Contact
-Shinji Iida
-
-Email: s-iida[at]protein.osaka-u.ac.jp
