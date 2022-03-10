@@ -1,0 +1,25 @@
+<body class="layout--single">
+  {{ insert masthead.html }}
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me.jpeg" alt="siida" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Shinji Iida</h3>
+            <p class="author__bio" itemprop="description">Postdoctral Researcher. Petit à petit, je fais mon nid.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Tokyo, Japan</span></li>
+              <li><a href="https://github.com/physicshinzui" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+              <li><a href="https://scholar.google.co.jp/citations?user=p09KwG8AAAAJ&hl=en" rel="nofollow noopener noreferrer"><img src="/assets/google-scholar.png" alt="gscholar" style="width: 1vw; min-width: 15px;"></i> Google Scholar</a></li>
+              <li><a href="https://twitter.com/_siida_" rel="nofollow noopener noreferrer"><img src="/assets/icons8-twitter.svg" alt="twitter" style="width: 1vw; min-width: 20px;"></i> Twitter </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
