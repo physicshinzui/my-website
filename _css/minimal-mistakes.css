@@ -4102,6 +4102,9 @@ a.reversefootnote:hover {
 .archive__item_flex {
   display: flex; align-items: center; flex-direction: column;
 }
+.archive__item-btn {
+  text-align: center;
+}
 
 .archive__subtitle {
   margin: 1.414em 0 0;
@@ -4121,6 +4124,7 @@ a.reversefootnote:hover {
   line-height: initial;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center
 }
 
 .archive__item-title a[rel="permalink"]::before {
