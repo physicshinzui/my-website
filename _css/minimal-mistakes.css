@@ -4302,7 +4302,7 @@ a.reversefootnote:hover {
 .feature__wrapper {
   clear: both;
   margin-bottom: 2em;
-  border-bottom: 1px solid #f2f3f3;
+  /* border-bottom: 1px solid #f2f3f3; */
 }
 
 .feature__wrapper::after {
