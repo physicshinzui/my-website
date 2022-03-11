@@ -23,9 +23,35 @@ Add here global latex commands to use throughout your pages.
 -->
 \newcommand{\R}{\mathbb R}
 \newcommand{\scal}[1]{\langle #1 \rangle}
-\newcommand{\definition}[2]{
+<!-- \newcommand{\definition}[2]{
   @@definition
   **Definition**: (_!#1_)
   #2
+  @@
+} -->
+\newcommand{\note}[1]{
+  @@admonition
+    @@note 
+      @@title ⚠ Note@@ 
+      @@content #1 @@ 
+    @@
+  @@
+}
+
+\newcommand{\def}[2]{
+  @@admonition
+    @@def 
+      @@title Definition: (_!#1_)@@ 
+      @@content #2 @@ 
+    @@
+  @@
+}
+
+\newcommand{\key}[1]{
+  @@admonition
+    @@key
+      @@title 💡 Review of The Key Ideas@@ 
+      @@content #1 @@ 
+    @@
   @@
 }
