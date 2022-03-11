@@ -41,6 +41,8 @@ blockquote {
 
 .franklin-content a {
   text-decoration: none;
+  /* Shinji added to change the font of h1, h2, ... */
+  font-family: "Avenir Next" 
 }
 
 /* For some reason,

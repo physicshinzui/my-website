@@ -680,7 +680,7 @@ body {
   margin: 0;
   padding: 0;
   color: #494e52;
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif; */
   line-height: 1.5;
 }
 
@@ -5110,3 +5110,19 @@ a.reversefootnote:hover {
     height: 1px !important;
   }
 }
+
+/* TODO for imada */
+/* @media (max-width: 64em) {
+  .sidebar div{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;    
+  }
+  .author__avatar img {
+    min-width: 100%;
+    border-radius: 80%;
+    display: block;
+  }
+} */

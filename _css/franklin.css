@@ -60,7 +60,8 @@ html {
 
 .page-foot {
   font-size: 80%;
-  font-family: Arial, serif;
+  /* font-family: Arial, serif; */
+  font-family: "Avenir Next" 
   color: #a6a2a0;
   text-align: center;
   margin-top: 6em;
@@ -83,6 +84,8 @@ html {
   padding-left: 12.5%;
   padding-right: 12.5%;
   line-height: 1.35em;
+  /* Shinji's favourite font */
+  font-family: "Avenir Next" 
 }
 
 /* On wide screens, fix content width to a max value. */
