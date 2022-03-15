@@ -1,14 +1,21 @@
 # Notes
-All contents are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) unless specified.
+All contents are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) unless specified. Mostly, under construction.
+When you find something wrong or inappropriate, please let me know.
 
-## Biomolecular modelling
-- [An easy way to model missing loop of a protein](/notebooks/modelling/model_loop)
+# Table Of Contents
+\toc
 
-## Julia
+## Biomolecular modelling and analysis
 
-## Python
-- [Automate web scraping](/notebooks/python/howtoselenium)
+### Molecular Dynamics Simulation
+- [Dataset: Molecular dynamics trajectories of protein folding](https://zenodo.org/record/6349893#.YjAluBBBz0o) (Educational purposes)
 
-## Gist
+### PyMOL
 - [Generate a linear amino-acid sequence](https://gist.github.com/physicshinzui/9f21c74be62504f32ad8412a87a69ba3)
 - [Relative SASA calculation by PyMOL](https://gist.github.com/physicshinzui/2a6475e0131c4bf138e80634106c907e)
+
+### UCSF Chimera
+- [An easy way to model missing loop of a protein](/notebooks/modelling/model_loop)
+
+<!-- ## Python
+- [Automate web scraping](/notebooks/python/howtoselenium) -->
