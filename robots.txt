@@ -1,0 +1,4 @@
+Sitemap: https://physicshinzui.github.io/sitemap.xml
+
+User-agent: *
+Disallow:
