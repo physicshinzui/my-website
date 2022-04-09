@@ -12,3 +12,4 @@
 4. Press `OK`, and then two windows appear for the sequence and modelling setting.
 5. Select a missing residues, which may be surrounded by a red rectangle if the PDB contains the information of where the missing residues are.
 6. Press `Apply` in the windown `Model Loops/Refine Structure`.
+
