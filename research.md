@@ -1,5 +1,4 @@
-# Research
-Overview of my research:
+# Overview of my research:
 
 \toc
 
@@ -18,8 +17,6 @@ Source code to analyse the fluctuations :point_right: [github](https://github.co
 We have explored the structural ensemble of an intrinsically disordered region, p53 C-terminal domain, via a generalised ensemble molecular dynamics simulation. We have identified various binding modes on a target protein.
 
 ![jctc_extra](https://github.com/physicshinzui/my-website/blob/main/figs/abst_extradis.png?raw=true)
-
-
 
 Our papers :point_down:
 
