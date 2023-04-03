@@ -2,13 +2,17 @@
 
 ## Research Keywords
 - Molecular dynamics simulation
-- Enhanced sampling MD simulation 
-- Finite element analysis
+- Enhanced sampling 
 - Biomolecules
-- Data analysis by Julia, Python, C++, and Fortran
+- Intrinsically disordered proteins
 
 ## Research Experience
-**June 2021 - Present**
+**April 2023 - Present**
+
+Assistant professor, Laboratory of Bioinformatics for Bioengineering, Department of Data Science, **Kitasato University**  (PI Dr. Yutaka Saito) 
+
+
+**June 2021 - March 2023**
 
 Postdoctral researcher, Computational Omics Research Team in  National Institute of Advanced Industrial Science and Technology (**AIST**) (PI Dr. Tomoshi Kameda) 
 
