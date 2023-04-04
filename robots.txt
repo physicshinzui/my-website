@@ -1,4 +1,4 @@
-Sitemap: https://physicshinzui.github.io/sitemap.xml
+Sitemap: https://s-iida.com/sitemap.xml
 
 User-agent: *
 Disallow:
