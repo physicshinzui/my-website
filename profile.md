@@ -9,7 +9,7 @@
 ## Research Experience
 **April 2023 - Present**
 
-Assistant professor, Laboratory of Bioinformatics for Bioengineering, Department of Data Science, **Kitasato University**  (PI Dr. Yutaka Saito) 
+Assistant professor, Laboratory of Bioinformatics for Bioengineering, Department of Data Science, **Kitasato University**  (PI Prof. Yutaka Saito) 
 
 
 **June 2021 - March 2023**
