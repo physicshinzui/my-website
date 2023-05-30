@@ -1,7 +1,7 @@
 # Publications
 
-1. **S. Iida** and T. Kameda ["Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules"](https://doi.org/10.1007/s12551-022-01036-3). *Biophys. Rev*. (**2022**) 
-2. **S. Iida** and T. Kameda  ["Dissociation Rate Calculation via Constant Force Molecular Simulation"](https://doi.org/10.26434/chemrxiv-2022-88sqn). ChemRxiv. Cambridge: Cambridge Open Engage; **2022**; This content is a preprint and has not been peer-reviewed.
+1. **S. Iida** and T. Kameda. ["Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation"](https://pubs.acs.org/doi/abs/10.1021/acs.jcim.2c01529). *J. Chem. Inf. Model.* (**2023**) 
+2. **S. Iida** and T. Kameda ["Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules"](https://doi.org/10.1007/s12551-022-01036-3). *Biophys. Rev*. (**2022**) 
 3. J. Higo, K. Kasahara, G. J. Bekker, B. Ma, S. Sakuraba, **S. Iida**, N. Kamiya, I. Fukuda, H. Kono, Y. Fukunishi, H. Nakamura, ["Fly-casting with ligand–sliding and orientational selection to support the complex formation of a GPCR and a middle-sized flexible molecule"](https://www.nature.com/articles/s41598-022-17920-7) **2022**, *Sci. Rep*. 12, 13792
 4. **S. Iida** and Y. Fukunishi ["Asymmetric dynamics of dimeric SARS-CoV-2 and SARS-CoV main proteases in an apo form: Molecular dynamics study on fluctuations of active site, catalytic dyad, and hydration water"](https://www.sciencedirect.com/science/article/pii/S2667160321000156) **2021**, 1, 100016, *BBA advances*
 5. B. S. Hanson, **S. Iida**, D. J. Read, O. G. Harlen, G. Kurisu, H. Nakamura , S. A. Harris ["Continuum Mechanical Parameterisation of Cytoplasmic Dynein from Atomistic Simulation" ](https://doi.org/10.1016/j.ymeth.2020.01.021)**2021** *Methods*
