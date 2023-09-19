@@ -2,14 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>https://s-iida.com/404/index.html</loc>
-    <lastmod>2022-09-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
     <loc>https://s-iida.com/profile/index.html</loc>
-    <lastmod>2023-04-06</lastmod>
+    <lastmod>2023-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
