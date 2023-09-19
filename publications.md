@@ -14,11 +14,23 @@
 
 # Research Support
 
-1. **S.Iida**, "Drug Design via Machine Learning: Use of Molecular Dynamics Data", EG-J13-022018, **Nov 2018-Mar 2019**, funded by The Swiss State Secretariat for Education, Research and Innovation.
-2. **S.Iida**, "Clarification of molecular recognition mechanisms of a disordered region via molecular dynamics simulation", 17J07112, **Apr 2017 -Mar 2019**, funded by Japan Society for the Promotion of Science (JSPS).
-2. **FY2021** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
+1. **S.Iida**, "Protein conformational ensemble geneartion using a diffusion model", [Link](https://www.jst.go.jp/kisoken/act-x/application/2023/230919/230919.html) , 23827793,  **Oct 2023 - Mar 2026**, funded by JST ACT-X.
+2. **S.Iida**, "Drug Design via Machine Learning: Use of Molecular Dynamics Data",[Link](https://www.jsps.go.jp/j-pd/pd_user-haken_h30list_swiss.html), EG-J13-022018, **Nov 2018-Mar 2019**, funded by The Swiss State Secretariat for Education, Research and Innovation.
+3. **S.Iida**, "Clarification of molecular recognition mechanisms of a disordered region via molecular dynamics simulation", 17J07112, **Apr 2017 -Mar 2019**, funded by Japan Society for the Promotion of Science (JSPS).
+
+
+
+# Supercomputer Usage
+
+1. **FY2023** "The identification of cryptic binding sites by noble gas: Molecular Dynamics Study", National Institutes of Natural Sciences (NINS), Okazaki Research Facilities
+2. **FY2023** "Conformational Ensemble Prediction of Intrinsically Disordered Protein via the Combination of Molecular Dynamics Simulation and Generative Model", TSUBAME 3.0
+3. **FY2021** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
 4. **FY2020** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
-5. Young Researchers’ Exchange Programme between Japan and Switzerland **2018**
-6. **FY2018** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
-7. **FY2016** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
-8. **FY2015** High Performance Computing Infrastructure Research. Subject: Excellent Achievement Award (Research Organization for Information Science and Technology)
+5. **FY2018** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
+6. **FY2016** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
+7. **FY2015** High Performance Computing Infrastructure Research. Subject: Excellent Achievement Award (Research Organization for Information Science and Technology)
+
+
+
+
+
