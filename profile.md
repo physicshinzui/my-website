@@ -5,6 +5,7 @@
 - Enhanced sampling 
 - Biomolecules
 - Intrinsically disordered proteins
+- Machine Learning
 
 ## Research Experience
 **April 2023 - Present**
