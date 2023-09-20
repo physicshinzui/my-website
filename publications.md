@@ -1,4 +1,7 @@
-# Publications
+# Contents
+\toc
+
+## Publications
 
 1. **S. Iida** and T. Kameda. ["Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation"](https://pubs.acs.org/doi/abs/10.1021/acs.jcim.2c01529). *J. Chem. Inf. Model.* (**2023**) 
 2. **S. Iida** and T. Kameda ["Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules"](https://doi.org/10.1007/s12551-022-01036-3). *Biophys. Rev*. (**2022**) 
@@ -12,15 +15,15 @@
 
 
 
-# Research Support
+## Research Support
 
-1. **S.Iida**, "Protein conformational ensemble geneartion using a diffusion model", [Link](https://www.jst.go.jp/kisoken/act-x/application/2023/230919/230919.html) , 23827793,  **Oct 2023 - Mar 2026**, funded by JST ACT-X.
-2. **S.Iida**, "Drug Design via Machine Learning: Use of Molecular Dynamics Data",[Link](https://www.jsps.go.jp/j-pd/pd_user-haken_h30list_swiss.html), EG-J13-022018, **Nov 2018-Mar 2019**, funded by The Swiss State Secretariat for Education, Research and Innovation.
-3. **S.Iida**, "Clarification of molecular recognition mechanisms of a disordered region via molecular dynamics simulation", 17J07112, **Apr 2017 -Mar 2019**, funded by Japan Society for the Promotion of Science (JSPS).
+1. **S.Iida**, "Protein Conformational Ensemble Generation Using a Diffusion model", [Link](https://www.jst.go.jp/kisoken/act-x/application/2023/230919/230919.html) , 23827793,  **Oct 2023 - Mar 2026**, funded by *JST ACT-X*.
+2. **S.Iida**, "Drug Design via Machine Learning: Use of Molecular Dynamics Data",[Link](https://www.jsps.go.jp/j-pd/pd_user-haken_h30list_swiss.html), EG-J13-022018, **Nov 2018-Mar 2019**, funded by *The Swiss State Secretariat for Education, Research and Innovation*.
+3. **S.Iida**, "Clarification of molecular recognition mechanisms of a disordered region via molecular dynamics simulation", [Link](https://kaken.nii.ac.jp/ja/grant/KAKENHI-PROJECT-17J07112/), 17J07112, **Apr 2017 -Mar 2019**, funded by *Japan Society for the Promotion of Science (JSPS)*.
 
 
 
-# Supercomputer Usage
+## Supercomputer Usage
 
 1. **FY2023** "The identification of cryptic binding sites by noble gas: Molecular Dynamics Study", National Institutes of Natural Sciences (NINS), Okazaki Research Facilities
 2. **FY2023** "Conformational Ensemble Prediction of Intrinsically Disordered Protein via the Combination of Molecular Dynamics Simulation and Generative Model", TSUBAME 3.0
@@ -29,8 +32,4 @@
 5. **FY2018** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
 6. **FY2016** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
 7. **FY2015** High Performance Computing Infrastructure Research. Subject: Excellent Achievement Award (Research Organization for Information Science and Technology)
-
-
-
-
 
