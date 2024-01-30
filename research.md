@@ -2,6 +2,22 @@
 
 \toc
 
+
+
+## Peptide Conformational Ensemble Generation via Generative Model (in progress)
+
+So far sophisticated protein structure prediction methods have come out. They are still limited to folded proteins and do not provides comprehensive equilibrium properties. In this this research, I attempt to build a generative model that yields an equilibrium ensemble of proteins. This project has been supported by JST ACT-X. 
+
+## Constant-froce Steered Molecular Dynamics Simulation
+
+We proposed the constant-force steered molecular dynamics simulation to estimate unbiased dissociation rate.
+
+Out paper :point_right:[Iida, S. & Kameda, T. Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation. ](https://pubs.acs.org/doi/10.1021/acs.jcim.2c01529)
+
+The input structures and topologies are provided :point_right: [github](https://github.com/physicshinzui/data-cfsmd).
+
+
+
 ## Cryptic Binding Site of Proteins
 
 We have found unique side-chain fluctuations of cryptic binding sites via molecular dynamics simulations.
