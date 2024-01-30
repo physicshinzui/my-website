@@ -4,13 +4,12 @@
 - Molecular dynamics simulation
 - Enhanced sampling 
 - Biomolecules
-- Intrinsically disordered proteins
 - Machine Learning
 
 ## Research Experience
 **April 2023 - Present**
 
-Assistant professor, [Laboratory of Bioinformatics for Bioengineering](https://staff.aist.go.jp/yutaka.saito/), Department of Data Science, **Kitasato University**  (PI Prof. Yutaka Saito) 
+Assistant professor, [Laboratory of Bioinformatics for Bioengineering](https://www.ytksailab.org/), Department of Data Science, **Kitasato University**  (PI Prof. Yutaka Saito) 
 
 
 **June 2021 - March 2023**
