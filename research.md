@@ -6,15 +6,19 @@
 
 ## Peptide Conformational Ensemble Generation via Generative Model (in progress)
 
-So far sophisticated protein structure prediction methods have come out. They are still limited to folded proteins and do not provides comprehensive equilibrium properties. In this this research, I attempt to build a generative model that yields an equilibrium ensemble of proteins. This project has been supported by JST ACT-X. 
+So far, sophisticated protein structure prediction methods have emerged. However, they are primarily limited to folded proteins and do not offer comprehensive insights into equilibrium properties. In this research, I aim to develop a generative model capable of producing an equilibrium ensemble of proteins. This project is supported by JST ACT-X.
+
+
 
 ## Constant-froce Steered Molecular Dynamics Simulation
 
 We proposed the constant-force steered molecular dynamics simulation to estimate unbiased dissociation rate.
 
-Out paper :point_right:[Iida, S. & Kameda, T. Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation. ](https://pubs.acs.org/doi/10.1021/acs.jcim.2c01529)
+Our paper :point_right:[Iida, S. & Kameda, T. Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation. ](https://pubs.acs.org/doi/10.1021/acs.jcim.2c01529)
 
 The input structures and topologies are provided :point_right: [github](https://github.com/physicshinzui/data-cfsmd).
+
+Our review paper for non-equilibrium molecular dynamics simulation :point_right: [Iida, S. & Tomoshi, K. Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules.](https://link.springer.com/article/10.1007/s12551-022-01036-3)
 
 
 
