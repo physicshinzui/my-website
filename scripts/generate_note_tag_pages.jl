@@ -11,18 +11,46 @@ end
 function read_frontmatter(path)
   lines = readlines(path)
   if length(lines) >= 3 && strip(lines[1]) == "+++"
-    closing = findfirst(i -> strip(lines[i]) == "+++", 2:length(lines))
+    closing = nothing
+    for i in 2:length(lines)
+      if strip(lines[i]) == "+++"
+        closing = i
+        break
+      end
+    end
     if closing !== nothing
-      content = join(lines[2:closing-1], "\n")
-      content = replace(
-        content,
-        r"date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)" =>
-          s"date = \"\1-\2-\3\"",
-      )
+      frontmatter_lines = String[]
+      for line in lines[2:closing-1]
+        match_result = match(
+          r"^\s*date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)\s*$",
+          line,
+        )
+        if match_result === nothing
+          push!(frontmatter_lines, line)
+        else
+          year = match_result.captures[1]
+          month = match_result.captures[2]
+          day = match_result.captures[3]
+          push!(frontmatter_lines, "date = \"$(year)-$(month)-$(day)\"")
+        end
+      end
+      content = join(frontmatter_lines, "\n")
       return TOML.parse(content)
     end
   end
   return Dict{String, Any}()
+end
+
+function parse_frontmatter_date(value)
+  value isa Date && return value
+  value isa DateTime && return Date(value)
+  raw = strip(String(value))
+  match_result = match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", raw)
+  match_result === nothing && return nothing
+  year = parse(Int, match_result.captures[1])
+  month = parse(Int, match_result.captures[2])
+  day = parse(Int, match_result.captures[3])
+  return Date(year, month, day)
 end
 
 function collect_tags(root)
@@ -36,8 +64,7 @@ function collect_tags(root)
       month = Dates.format(Date(unix2datetime(mtime(path))), dateformat"yyyy-mm")
       if haskey(frontmatter, "date")
         parsed = try
-          value = frontmatter["date"]
-          value isa Date ? value : Date(string(value))
+          parse_frontmatter_date(frontmatter["date"])
         catch
           nothing
         end
