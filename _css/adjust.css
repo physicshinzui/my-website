@@ -59,3 +59,102 @@ h2 a:visited { color: #1c1c1c !important; }
 h3 a:visited { color: #1c1c1c !important; }
 h4 a:visited { color: #1c1c1c !important; }
 h5 a:visited { color: #1c1c1c !important; }
+
+.notes-stack {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.note-item {
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.note-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.2rem;
+}
+
+.note-title a {
+  color: #1c1c1c !important;
+}
+
+.note-meta,
+.note-panel-meta {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.note-meta-sep {
+  padding: 0 0.35rem;
+}
+
+.note-summary {
+  margin: 0.45rem 0 0 0;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.note-tags,
+.notes-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.note-tag-link {
+  text-decoration: none !important;
+}
+
+.note-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #1f2937;
+  font-size: 0.85rem;
+}
+
+.note-tag-count {
+  margin-left: 0.35rem;
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+.notes-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.note-panel {
+  padding: 1rem 1.1rem;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  background: #fafaf9;
+}
+
+.note-panel-title {
+  margin: 0 0 0.2rem 0;
+}
+
+.note-mini-list {
+  margin: 0.7rem 0 0 1.2rem;
+}
+
+.note-mini-list li + li {
+  margin-top: 0.35rem;
+}
+
+.notes-section-block {
+  margin-top: 2.25rem;
+}
+
+@media (min-width: 900px) {
+  .notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

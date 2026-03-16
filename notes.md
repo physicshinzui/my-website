@@ -1,11 +1,19 @@
 # Notes
-All contents are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) unless specified. Mostly, under construction.
-When you find something wrong or inappropriate, please let me know.
+This page is the hub for technical notes, research memos, and small how-tos.
+Browse recent posts first, or jump by genre and tag.
 
-# Table Of Contents
-\toc
+## Quick Navigation
+- [Browse all genres](/notes/genres/)
+- [Browse all tags](/notes/tags/)
 
-{{notes_index}}
+## Recent Notes
+{{notes_recent}}
+
+## Browse by Genre
+{{notes_genres_overview}}
+
+## Browse by Tag
+{{notes_tags_overview}}
 
 ## External resources
 
