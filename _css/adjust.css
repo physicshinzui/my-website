@@ -116,7 +116,11 @@ h5 a:visited { color: #1c1c1c !important; }
 .notes-stack {
   display: grid;
   gap: 1.25rem;
-  margin-top: 1rem;
+  margin-top: 0.2rem;
+}
+
+.franklin-content h2 + .notes-stack {
+  margin-top: -0.55rem;
 }
 
 .note-item {
