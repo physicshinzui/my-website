@@ -29,7 +29,7 @@ Our review paper for non-equilibrium molecular dynamics simulation :point_right:
 
 We have found unique side-chain fluctuations of cryptic binding sites via molecular dynamics simulations.
 
-![jp0c04963_0007](https://github.com/physicshinzui/my-website/blob/main/figs/res_cryp.png?raw=true)
+![jp0c04963_0007](/figs/res_cryp.png)
 
 Our paper :point_right:  ["Structural Fluctuations of Aromatic Residues in an Apo-Form Reveal Cryptic Binding Sites: Implications for Fragment-based Drug Design" ](https://pubs.acs.org/doi/abs/10.1021/acs.jpcb.0c04963)
 
@@ -39,7 +39,7 @@ Source code to analyze the fluctuations :point_right: [github](https://github.co
 
 We have explored the structural ensemble of an intrinsically disordered region, the p53 C-terminal domain, via a generalized-ensemble molecular dynamics simulation. We identified various binding modes on a target protein.
 
-![jctc_extra](https://github.com/physicshinzui/my-website/blob/main/figs/abst_extradis.png?raw=true)
+![jctc_extra](/figs/abst_extradis.png)
 
 Our papers :point_down:
 
@@ -52,7 +52,7 @@ Our papers :point_down:
 
 We have investigated monomeric and dimeric states of the SARS-CoV-2 main protease, identifying water molecules that can be crucial to keep the dyad configuration.
 
-![mpro](https://github.com/physicshinzui/my-website/blob/main/figs/res_mpro.jpg?raw=true)
+![mpro](/figs/res_mpro.jpg)
 
 
 
