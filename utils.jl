@@ -159,10 +159,11 @@ function _archive_counts(notes)
 end
 
 function _notes_by_month(notes)
-  grouped = Dict{String, Vector{typeof(notes[1])}}()
+  note_type = eltype(notes)
+  grouped = Dict{String, Vector{note_type}}()
   for note in notes
     month = _format_note_month(note)
-    push!(get!(grouped, month, typeof(notes[1])[]), note)
+    push!(get!(grouped, month, note_type[]), note)
   end
   return grouped
 end
