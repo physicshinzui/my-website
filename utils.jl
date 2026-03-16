@@ -22,6 +22,17 @@ function hfun_page_last_modified()
   return "Last modified: " * value
 end
 
+function _current_route()
+  value = locvar("fd_rpath")
+  value isa AbstractString || return nothing
+  route = strip(value)
+  isempty(route) && return nothing
+  route = replace(route, "\\" => "/")
+  route = replace(route, r"^/+" => "")
+  route = replace(route, r"\.md$" => "")
+  return isempty(route) ? nothing : route
+end
+
 function lx_baz(com, _)
   # keep this first line
   brace_content = Franklin.content(com.braces[1]) # input string
@@ -112,6 +123,16 @@ function _collect_notes()
   return sort(notes; by = note -> (-Dates.value(note.date), lowercase(note.title)))
 end
 
+function hfun_note_page_date_meta()
+  route = _current_route()
+  route === nothing && return ""
+  startswith(route, "notebooks/") || return ""
+  path = joinpath(@__DIR__, route * ".md")
+  isfile(path) || return ""
+  date = _note_date(route, path)
+  return "<meta name=\"note-page-date\" content=\"$(Dates.format(date, dateformat"yyyy-mm-dd"))\">"
+end
+
 function _slugify(value)
   slug = lowercase(strip(String(value)))
   slug = replace(slug, r"[^a-z0-9]+" => "-")
@@ -169,7 +190,6 @@ function _notes_by_month(notes)
 end
 
 function _render_note_item(note)
-  meta = "<div class=\"note-meta\">$(_format_note_date(note))</div>"
   summary = note.summary === nothing ? "" : "<p class=\"note-summary\">$(note.summary)</p>"
   tags = _render_tag_pills(note.tags)
   return """
@@ -177,7 +197,6 @@ function _render_note_item(note)
     <div class="note-item-head">
       <h3 class="note-title"><a href="/$(note.route)">$(note.title)</a></h3>
     </div>
-    $(meta)
     $(summary)
     $(tags)
   </article>

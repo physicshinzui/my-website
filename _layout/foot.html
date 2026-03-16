@@ -28,6 +28,20 @@
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var meta = document.querySelector('meta[name="note-page-date"]');
+        if (!meta || !meta.content) return;
+        var content = document.querySelector(".franklin-content");
+        var heading = content && content.querySelector("h1");
+        if (!content || !heading || content.querySelector(".note-page-date")) return;
+
+        var date = document.createElement("div");
+        date.className = "note-page-date";
+        date.textContent = meta.content;
+        heading.insertAdjacentElement("afterend", date);
+      });
+    </script>
 
     {{ if hasmath }}
         {{ insert foot_katex.html }}
