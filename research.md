@@ -1,59 +1,61 @@
 @def title = "Research"
 @def description = "Research overview covering molecular dynamics, enhanced sampling, and biomolecular modeling."
 
-# Overview of my research:
+@@page-intro
+# Research
 
-\toc
+Current work centers on protein conformational ensembles, enhanced-sampling simulation, and physically grounded machine learning for biomolecular systems.
+@@
 
-
-
-## Peptide Conformational Ensemble Generation via Generative Model (in progress)
+@@page-panel
+## Peptide Conformational Ensemble Generation via Generative Model
 
 So far, sophisticated protein structure prediction methods have emerged. However, they are primarily limited to folded proteins and do not offer comprehensive insights into equilibrium properties. In this research, I aim to develop a generative model capable of producing an equilibrium ensemble of proteins. This project is supported by JST ACT-X.
+@@
 
-
-
+@@page-panel
 ## Constant-Force Steered Molecular Dynamics Simulation
 
 We proposed the constant-force steered molecular dynamics simulation to estimate unbiased dissociation rate.
 
-Our paper :point_right:[Iida, S. & Kameda, T. Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation. ](https://pubs.acs.org/doi/10.1021/acs.jcim.2c01529)
+Our paper: [Iida, S. & Kameda, T. Dissociation Rate Calculation via Constant-Force Steered Molecular Dynamics Simulation.](https://pubs.acs.org/doi/10.1021/acs.jcim.2c01529)
 
-The input structures and topologies are provided :point_right: [github](https://github.com/physicshinzui/data-cfsmd).
+The input structures and topologies are provided on [GitHub](https://github.com/physicshinzui/data-cfsmd).
 
-Our review paper for non-equilibrium molecular dynamics simulation :point_right: [Iida, S. & Tomoshi, K. Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules.](https://link.springer.com/article/10.1007/s12551-022-01036-3)
+Our review paper for non-equilibrium molecular dynamics simulation: [Iida, S. & Tomoshi, K. Free energy and kinetic rate calculation via non-equilibrium molecular simulation: application to biomolecules.](https://link.springer.com/article/10.1007/s12551-022-01036-3)
+@@
 
-
-
+@@page-panel
 ## Cryptic Binding Site of Proteins
 
-We have found unique side-chain fluctuations of cryptic binding sites via molecular dynamics simulations.
+We found unique side-chain fluctuations of cryptic binding sites via molecular dynamics simulations.
 
 ![jp0c04963_0007](/figs/res_cryp.png)
 
-Our paper :point_right:  ["Structural Fluctuations of Aromatic Residues in an Apo-Form Reveal Cryptic Binding Sites: Implications for Fragment-based Drug Design" ](https://pubs.acs.org/doi/abs/10.1021/acs.jpcb.0c04963)
+Our paper: ["Structural Fluctuations of Aromatic Residues in an Apo-Form Reveal Cryptic Binding Sites: Implications for Fragment-based Drug Design"](https://pubs.acs.org/doi/abs/10.1021/acs.jpcb.0c04963)
 
-Source code to analyze the fluctuations :point_right: [github](https://github.com/physicshinzui/crypticBindingSitePredictor)
+Source code to analyze the fluctuations is available on [GitHub](https://github.com/physicshinzui/crypticBindingSitePredictor).
+@@
 
+@@page-panel
 ## Intrinsically Disordered Protein
 
-We have explored the structural ensemble of an intrinsically disordered region, the p53 C-terminal domain, via a generalized-ensemble molecular dynamics simulation. We identified various binding modes on a target protein.
+We explored the structural ensemble of an intrinsically disordered region, the p53 C-terminal domain, via a generalized-ensemble molecular dynamics simulation. We identified various binding modes on a target protein.
 
 ![jctc_extra](/figs/abst_extradis.png)
 
-Our papers :point_down:
+Related papers:
 
-1. ["Variation of Free-energy Landscape of the p53 C-terminal Domain Induced by Acetylation: Enhanced Conformational Sampling" ](https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.24494)
+1. ["Variation of Free-energy Landscape of the p53 C-terminal Domain Induced by Acetylation: Enhanced Conformational Sampling"](https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.24494)
 2. [Multimodal Structural Distribution of the p53 C-Terminal Domain upon Binding to S100B via a Generalized Ensemble Method: From Disorder to Extradisorder](https://pubs.acs.org/doi/abs/10.1021/acs.jctc.8b01042)
+@@
 
+@@page-panel
+## SARS-CoV-2 Main Protease
 
-
-## SARS-CoV-2 main protease
-
-We have investigated monomeric and dimeric states of the SARS-CoV-2 main protease, identifying water molecules that can be crucial to keep the dyad configuration.
+We investigated monomeric and dimeric states of the SARS-CoV-2 main protease, identifying water molecules that can be crucial for keeping the dyad configuration.
 
 ![mpro](/figs/res_mpro.jpg)
 
-
-
-Our paper :point_right: [Asymmetric dynamics of dimeric SARS-CoV-2 and SARS-CoV main proteases in an apo form: Molecular dynamics study on fluctuations of active site, catalytic dyad, and hydration water](https://www.sciencedirect.com/science/article/pii/S2667160321000156)
+Our paper: [Asymmetric dynamics of dimeric SARS-CoV-2 and SARS-CoV main proteases in an apo form: Molecular dynamics study on fluctuations of active site, catalytic dyad, and hydration water](https://www.sciencedirect.com/science/article/pii/S2667160321000156)
+@@

@@ -1,9 +1,13 @@
 @def title = "Publications"
 @def description = "Publications, grants, and research support for Shinji Iida."
 
-# Contents
-\toc
+@@page-intro
+# Publications
 
+Selected papers, research support, and computing resources related to ongoing work in computational biophysics.
+@@
+
+@@page-panel
 ## Publications
 
 1. **S. Iida**, ["Xenon Explores Apparent and Cryptic Binding Sites"](https://doi.org/10.1021/acs.jcim.5c01850) *J. Chem. Inf. Model.* **2025**, *65* (21), 11849–11859.  
@@ -17,18 +21,18 @@
 9. **S. Iida,** T. Kawabata, K. Kasahara, H. Nakamura, and J. Higo, ["Multimodal Structural Distribution of the p53 C-terminal Domain Upon Binding to S100B via a Generalized Ensemble Method: From Disorder to Extra-Disorder" ](https://pubs.acs.org/doi/10.1021/acs.jctc.8b01042)*, Journal of Chemical Theory and Computation* **2019**, 15(4), 2597-2607
 10. **S. Iida**, H. Nakamura, and J. Higo, ["Enhanced Conformational Sampling to Visualize a Free-energy Landscape of Protein Complex Formation" ](http://www.biochemj.org/content/473/12/1651)*, Biochemical Journal* **2016** 473, 1651–62
 11. **S. Iida**, T. Mashimo, T. Kurosawa, H. Hojo, H. Muta, Y. Goto, Y. Fukunishi, H. Nakamura, J. Higo ["Variation of Free-energy Landscape of the p53 C-terminal Domain Induced by Acetylation: Enhanced Conformational Sampling" ](https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.24494)**2016** *Journal of Computational Chemistry*, 37, 2687–2700
+@@
 
-
-
+@@page-panel
 ## Research Support
 
 1. **S.Iida**, "Development of techniques for predicting higher-order structures formed by self-assembling peptides", Project number: 25K18432,  **Apr 2025 - Mar 2029**, funded by  **Grant-in-Aid for Early-Career Scientists (JSPS) (若手研究)**.
 2. **S.Iida**, "Protein Conformational Ensemble Generation Using a Diffusion Model", [Link](https://www.jst.go.jp/kisoken/act-x/application/2023/230919/230919.html) , 23827793,  **Oct 2023 - Mar 2026**, funded by **JST ACT-X**.
 3. **S.Iida**, "Drug Design via Machine Learning: Use of Molecular Dynamics Data",[Link](https://www.jsps.go.jp/j-pd/pd_user-haken_h30list_swiss.html), EG-J13-022018, **Nov 2018-Mar 2019**, funded by **The Swiss State Secretariat for Education, Research and Innovation**.
 4. **S.Iida**, "Clarification of molecular recognition mechanisms of a disordered region via molecular dynamics simulation", [Link](https://kaken.nii.ac.jp/ja/grant/KAKENHI-PROJECT-17J07112/), 17J07112, **Apr 2017 -Mar 2019**, funded by **JSPS**.
+@@
 
-
-
+@@page-panel
 ## Supercomputer Usage
 
 1. **FY2023** "The identification of cryptic binding sites by noble gas: Molecular Dynamics Study", National Institutes of Natural Sciences (NINS), Okazaki Research Facilities
@@ -38,3 +42,4 @@
 5. **FY2018** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
 6. **FY2016** Adoption of research proposal for supercomputer: “TSUBAME Encouragement Program for Young/Female/Younger Users”
 7. **FY2015** High Performance Computing Infrastructure Research. Subject: Excellent Achievement Award (Research Organization for Information Science and Technology)
+@@
