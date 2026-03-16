@@ -47,6 +47,69 @@ Add here global latex commands to use throughout your pages.
   @@
 }
 
+\newcommand{\thm}[2]{
+  @@admonition
+    @@thm
+      @@title Theorem: (_!#1_)@@
+      @@content #2 @@
+    @@
+  @@
+}
+
+\newcommand{\lemma}[2]{
+  @@admonition
+    @@lemma
+      @@title Lemma: (_!#1_)@@
+      @@content #2 @@
+    @@
+  @@
+}
+
+\newcommand{\prop}[2]{
+  @@admonition
+    @@prop
+      @@title Proposition: (_!#1_)@@
+      @@content #2 @@
+    @@
+  @@
+}
+
+\newcommand{\results}[1]{
+  @@admonition
+    @@results
+      @@title Results@@
+      @@content #1 @@
+    @@
+  @@
+}
+
+\newcommand{\requirements}[1]{
+  @@admonition
+    @@requirements
+      @@title Requirements@@
+      @@content #1 @@
+    @@
+  @@
+}
+
+\newcommand{\derivation}[1]{
+  @@admonition
+    @@derivation
+      @@title Derivation@@
+      @@content #1 @@
+    @@
+  @@
+}
+
+\newcommand{\proof}[1]{
+  @@admonition
+    @@proof
+      @@title Proof@@
+      @@content #1 @@
+    @@
+  @@
+}
+
 \newcommand{\key}[1]{
   @@admonition
     @@key
