@@ -24,13 +24,6 @@ Platform Info:
   [713c75ef] Franklin v0.10.72
 ```
 
-### gh-import
-```
-$ ghp-import --version
-2.0.2
-```
-
-
 ## 1. Go to your franklin project directory, which should be like:
 ```shell 
 $ tree -L 1
@@ -66,27 +59,31 @@ julia> serve() # Or serve(port=8000)
 - Your website is launched locally.
 - The website launched is interactively updated while you modify content. So, this is a good way to check what you wrote.
 
-## 3. Push `__site` as a `gh-page` repo
-I use `ghp-import`, which pushes a target repo to `gh-page` branch.
-In the directory of , execute
+## 3. Build locally when you want to verify the production output
 ```bash
-ghp-import -c s-iida.com -n -p -f __site
+julia --project=. build.jl
 ```
 
-Usage: `ghp-import [OPTIONS] DIRECTORY`
-- `-n, --no-jekyll       Include a .nojekyll file in the branch.`
-- `-p, --push            Push the branch to origin/{branch} after committing.`
-- `-f, --force           Force the push to the repository` 
-- `-c CNAME, --cname=CNAME` (Maybe convenient to assign the repo with an URL??): Write a CNAME file with the given CNAME.
+This generates `__site` and copies `CNAME` into the output.
 
-This updates your `gh-pages` branch 😄
+## 4. Deploy with GitHub Actions
+Push changes to `main`.
 
-## ~~4. Go to GitHub and specify your domain. ~~
-⚠ You have specified the option `c` for `ghp-import`, so you don't need to do this part.
+```bash
+git push origin main
+```
+
+GitHub Actions will:
+- instantiate the Julia project,
+- run `julia --project=. build.jl`,
+- upload `__site`,
+- deploy it to GitHub Pages.
+
+## 5. GitHub Pages settings
 - Go to https://github.com/physicshinzui/my-website/settings/pages
-- Set the `Custom domain` to `s-iida.com`
-- Wait for a moment.
-- Visit `s-iida.com`!! It must be updated!
+- Set the source to `GitHub Actions`
+- Confirm the custom domain is `s-iida.com`
+- Visit `s-iida.com` after the workflow finishes
 
 
 
