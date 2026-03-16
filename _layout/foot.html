@@ -32,14 +32,48 @@
       document.addEventListener("DOMContentLoaded", function () {
         var meta = document.querySelector('meta[name="note-page-date"]');
         if (!meta || !meta.content) return;
+        var tagsScript = document.getElementById("note-page-tags");
+        var tags = [];
+        if (tagsScript && tagsScript.textContent) {
+          try {
+            tags = JSON.parse(tagsScript.textContent);
+          } catch (error) {
+            tags = [];
+          }
+        }
         var content = document.querySelector(".franklin-content");
         var heading = content && content.querySelector("h1");
         if (!content || !heading || content.querySelector(".note-page-date")) return;
 
+        var metaRow = document.createElement("div");
+        metaRow.className = "note-page-meta";
+
         var date = document.createElement("div");
         date.className = "note-page-date";
         date.textContent = meta.content;
-        heading.insertAdjacentElement("afterend", date);
+        metaRow.appendChild(date);
+
+        if (Array.isArray(tags) && tags.length > 0) {
+          var tagsWrap = document.createElement("div");
+          tagsWrap.className = "note-page-tags";
+
+          tags.forEach(function (tag) {
+            var link = document.createElement("a");
+            link.className = "note-tag-link";
+            link.href = "/notes/tags/" + tag.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "/";
+
+            var pill = document.createElement("span");
+            pill.className = "note-tag";
+            pill.textContent = tag;
+
+            link.appendChild(pill);
+            tagsWrap.appendChild(link);
+          });
+
+          metaRow.appendChild(tagsWrap);
+        }
+
+        heading.insertAdjacentElement("afterend", metaRow);
       });
     </script>
 

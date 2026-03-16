@@ -130,7 +130,12 @@ function hfun_note_page_date_meta()
   path = joinpath(@__DIR__, route * ".md")
   isfile(path) || return ""
   date = _note_date(route, path)
-  return "<meta name=\"note-page-date\" content=\"$(Dates.format(date, dateformat"yyyy-mm-dd"))\">"
+  tags = _note_tags(route)
+  tags_json = "[" * join(["\"" * replace(tag, "\"" => "\\\"") * "\"" for tag in tags], ",") * "]"
+  return """
+  <meta name="note-page-date" content="$(Dates.format(date, dateformat"yyyy-mm-dd"))">
+  <script id="note-page-tags" type="application/json">$(tags_json)</script>
+  """
 end
 
 function _slugify(value)
@@ -189,9 +194,9 @@ function _notes_by_month(notes)
   return grouped
 end
 
-function _render_note_item(note)
+function _render_note_item(note; show_tags = true)
   summary = note.summary === nothing ? "" : "<p class=\"note-summary\">$(note.summary)</p>"
-  tags = _render_tag_pills(note.tags)
+  tags = show_tags ? _render_tag_pills(note.tags) : ""
   return """
   <article class="note-item">
     <div class="note-item-head">
@@ -221,7 +226,7 @@ end
 function hfun_notes_recent()
   notes = _collect_notes()
   isempty(notes) && return "<p>No notes yet.</p>"
-  items = [_render_note_item(note) for note in Iterators.take(notes, 3)]
+  items = [_render_note_item(note; show_tags = false) for note in Iterators.take(notes, 3)]
   return "<div class=\"notes-stack\">" * join(items, "\n") * "</div>"
 end
 

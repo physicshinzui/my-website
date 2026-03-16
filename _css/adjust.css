@@ -147,11 +147,25 @@ h5 a:visited { color: #1c1c1c !important; }
   color: #1c1c1c !important;
 }
 
-.note-page-date {
+.note-page-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.6rem;
   margin: -0.6rem 0 1.1rem 0;
+}
+
+.note-page-date {
+  margin: 0;
   color: #9ca3af;
   font-size: 0.76rem;
   line-height: 1.4;
+}
+
+.note-page-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .note-meta,
