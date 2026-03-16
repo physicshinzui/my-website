@@ -10,6 +10,18 @@ function hfun_m1fill(vname)
   return pagevar("index", var)
 end
 
+function hfun_page_last_modified()
+  value = locvar("fd_mtime")
+  if !(value isa AbstractString)
+    return ""
+  end
+  value = strip(value)
+  if isempty(value) || value == "0001-01-01"
+    return ""
+  end
+  return "Last modified: " * value
+end
+
 function lx_baz(com, _)
   # keep this first line
   brace_content = Franklin.content(com.braces[1]) # input string
