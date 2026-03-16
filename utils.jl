@@ -176,7 +176,6 @@ function _render_note_item(note)
   <article class="note-item">
     <div class="note-item-head">
       <h3 class="note-title"><a href="/$(note.route)">$(note.title)</a></h3>
-      <a class="note-month" href="$(_archive_path(_format_note_month(note)))">$(_format_note_month(note))</a>
     </div>
     $(meta)
     $(summary)
