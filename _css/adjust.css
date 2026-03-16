@@ -287,6 +287,107 @@ h5 a:visited { color: #1c1c1c !important; }
   margin-left: 0.25rem;
 }
 
+.admonition {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.admonition .thm,
+.admonition .lemma,
+.admonition .prop,
+.admonition .results,
+.admonition .requirements,
+.admonition .derivation,
+.admonition .proof {
+  border-left: 4px solid #cbd5e1;
+}
+
+.admonition .thm .title,
+.admonition .lemma .title,
+.admonition .prop .title,
+.admonition .results .title,
+.admonition .requirements .title,
+.admonition .derivation .title,
+.admonition .proof .title {
+  background: transparent;
+  color: #0f172a;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 0.9rem 0 0.9rem;
+}
+
+.admonition .thm .content,
+.admonition .lemma .content,
+.admonition .prop .content,
+.admonition .results .content,
+.admonition .requirements .content,
+.admonition .derivation .content,
+.admonition .proof .content {
+  padding: 0.45rem 0.9rem 0.85rem 0.9rem;
+  line-height: 1.7;
+}
+
+.admonition .thm {
+  background: linear-gradient(90deg, #f8fafc 0%, #f8fafc 100%);
+  border-left-color: #1d4ed8;
+}
+
+.admonition .lemma {
+  border-left-color: #2563eb;
+}
+
+.admonition .prop {
+  border-left-color: #0891b2;
+}
+
+.admonition .results {
+  border-left-color: #0f766e;
+}
+
+.admonition .requirements {
+  border-left-color: #b45309;
+}
+
+.admonition .derivation {
+  border-left-color: #7c3aed;
+  background: transparent;
+  border-left: 0;
+}
+
+.admonition .proof {
+  border-left-color: #64748b;
+  background: transparent;
+  border-left: 0;
+}
+
+.admonition:has(.derivation),
+.admonition:has(.proof) {
+  background: transparent;
+  border: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admonition .derivation .title,
+.admonition .proof .title {
+  padding: 0 0 0.2rem 0;
+}
+
+.admonition .derivation .content,
+.admonition .proof .content {
+  padding: 0;
+}
+
+.admonition .derivation .content::after,
+.admonition .proof .content::after {
+  content: "\25A1";
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: #475569;
+  font-size: 0.9em;
+}
+
 @media (min-width: 900px) {
   .notes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
