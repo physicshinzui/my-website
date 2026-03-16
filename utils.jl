@@ -194,7 +194,8 @@ function _notes_by_month(notes)
   return grouped
 end
 
-function _render_note_item(note; show_tags = true)
+function _render_note_item(note; show_tags = true, show_date = false)
+  meta = show_date ? "<div class=\"note-meta\">$(_format_note_date(note))</div>" : ""
   summary = note.summary === nothing ? "" : "<p class=\"note-summary\">$(note.summary)</p>"
   tags = show_tags ? _render_tag_pills(note.tags) : ""
   return """
@@ -202,6 +203,7 @@ function _render_note_item(note; show_tags = true)
     <div class="note-item-head">
       <h3 class="note-title"><a href="/$(note.route)">$(note.title)</a></h3>
     </div>
+    $(meta)
     $(summary)
     $(tags)
   </article>
@@ -226,8 +228,8 @@ end
 function hfun_notes_recent()
   notes = _collect_notes()
   isempty(notes) && return "<p>No notes yet.</p>"
-  items = [_render_note_item(note; show_tags = false) for note in Iterators.take(notes, 3)]
-  return "<div class=\"notes-stack\">" * join(items, "\n") * "</div>"
+  items = [_render_note_item(note; show_tags = false, show_date = true) for note in Iterators.take(notes, 3)]
+  return "<div class=\"notes-stack notes-recent-list\">" * join(items, "\n") * "</div>"
 end
 
 
