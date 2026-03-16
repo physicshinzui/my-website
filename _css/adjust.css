@@ -5,6 +5,7 @@ body,
 .author__urls,
 .franklin-content {
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -13,6 +14,18 @@ h1, h2, h3, h4, h5, h6,
 .archive__item-title {
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;
+}
+
+.franklin-content h1 {
+  font-size: 1.6rem;
+}
+
+.franklin-content h2 {
+  font-size: 1.28rem;
+}
+
+.franklin-content h3 {
+  font-size: 1.08rem;
 }
 
 code,
@@ -39,7 +52,30 @@ pre,
 }
 
 pre {
-  font-size: 17px;
+  font-size: 16px;
+}
+
+pre.code-block-wrap {
+  position: relative;
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #374151;
+  font-size: 0.68rem;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.code-copy-button:hover {
+  background: #ffffff;
 }
 
 blockquote {
@@ -88,7 +124,8 @@ h5 a:visited { color: #1c1c1c !important; }
 
 .note-title {
   margin: 0 0 0.25rem 0;
-  font-size: 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
 .note-title a {
@@ -126,17 +163,36 @@ h5 a:visited { color: #1c1c1c !important; }
 .note-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.7rem;
+  padding: 0.08rem 0.28rem;
   border-radius: 999px;
   background: #f3f4f6;
   color: #1f2937;
-  font-size: 0.85rem;
+  font-size: 0.5rem;
 }
 
-.note-tag-count {
-  margin-left: 0.35rem;
+.notes-tag-inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.notes-inline-tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  padding: 0.08rem 0.28rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #fafaf9;
+  color: #1c1c1c !important;
+  text-decoration: none !important;
+  font-size: 0.5rem;
+}
+
+.notes-inline-tag-count {
   color: #6b7280;
-  font-size: 0.82rem;
+  font-size: 0.48rem;
 }
 
 .notes-grid {
@@ -166,6 +222,29 @@ h5 a:visited { color: #1c1c1c !important; }
 
 .notes-section-block {
   margin-top: 2.25rem;
+}
+
+.notes-simple-list {
+  margin-top: 1.25rem;
+}
+
+.notes-simple-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.notes-simple-link {
+  color: #1c1c1c !important;
+}
+
+.notes-simple-count {
+  color: #6b7280;
+  font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 @media (min-width: 900px) {

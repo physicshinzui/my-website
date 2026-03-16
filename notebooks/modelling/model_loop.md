@@ -1,7 +1,6 @@
 +++
 title = "How to model missing loop by Chimera"
-genre = "Biomolecular modelling and analysis"
-tags = ["chimera", "modelling", "protein"]
+tags = ["modelling", "chimera", "protein"]
 summary = ""
 +++
 

@@ -1,7 +1,6 @@
 +++
 title = "test note"
-genre = "Misc"
-tags = ["test"]
+tags = ["misc", "test"]
 summary = ""
 +++
 

@@ -57,15 +57,6 @@ function _note_summary(route)
   return nothing
 end
 
-function _note_genre(route)
-  genre = pagevar(route, "genre")
-  if genre isa AbstractString
-    genre = strip(genre)
-    isempty(genre) || return genre
-  end
-  return "Other"
-end
-
 function _note_tags(route)
   tags = pagevar(route, "tags")
   if tags isa AbstractVector
@@ -101,7 +92,6 @@ function _collect_notes()
     push!(notes, (
       title = _note_title(path, route),
       route = route,
-      genre = _note_genre(route),
       summary = _note_summary(route),
       tags = _note_tags(route),
       date = _note_date(route, path),
@@ -121,22 +111,26 @@ function _format_note_date(note)
   return Dates.format(note.date, dateformat"yyyy-mm-dd")
 end
 
-function _render_tag_pills(tags; base_url = nothing)
+function _tag_path(tag)
+  return "/notes/tags/$(_slugify(tag))/"
+end
+
+function _render_tag_pills(tags; link_tags = true)
   isempty(tags) && return ""
   pills = String[]
   for tag in sort(tags)
     label = "<span class=\"note-tag\">$(tag)</span>"
-    if base_url === nothing
-      push!(pills, label)
+    if link_tags
+      push!(pills, "<a class=\"note-tag-link\" href=\"$(_tag_path(tag))\">$(label)</a>")
     else
-      push!(pills, "<a class=\"note-tag-link\" href=\"$(base_url)#$(_slugify(tag))\">$(label)</a>")
+      push!(pills, label)
     end
   end
   return "<div class=\"note-tags\">" * join(pills, "") * "</div>"
 end
 
 function _render_note_item(note)
-  meta = "<div class=\"note-meta\">$(_format_note_date(note)) <span class=\"note-meta-sep\">|</span> $(note.genre)</div>"
+  meta = "<div class=\"note-meta\">$(_format_note_date(note))</div>"
   summary = note.summary === nothing ? "" : "<p class=\"note-summary\">$(note.summary)</p>"
   tags = _render_tag_pills(note.tags)
   return """
@@ -149,14 +143,6 @@ function _render_note_item(note)
   """
 end
 
-function _notes_by_genre(notes)
-  grouped = Dict{String, Vector{typeof(notes[1])}}()
-  for note in notes
-    push!(get!(grouped, note.genre, typeof(notes[1])[]), note)
-  end
-  return grouped
-end
-
 function _note_tag_counts(notes)
   counts = Dict{String, Int}()
   for note in notes
@@ -167,33 +153,18 @@ function _note_tag_counts(notes)
   return counts
 end
 
+function _tagged_notes(tag)
+  notes = _collect_notes()
+  return [note for note in notes if tag in note.tags]
+end
+
 function hfun_notes_recent()
   notes = _collect_notes()
   isempty(notes) && return "<p>No notes yet.</p>"
-  items = [_render_note_item(note) for note in Iterators.take(notes, 6)]
+  items = [_render_note_item(note) for note in Iterators.take(notes, 3)]
   return "<div class=\"notes-stack\">" * join(items, "\n") * "</div>"
 end
 
-function hfun_notes_genres_overview()
-  notes = _collect_notes()
-  isempty(notes) && return "<p>No genres yet.</p>"
-  grouped = _notes_by_genre(notes)
-  parts = String[]
-  push!(parts, "<div class=\"notes-grid\">")
-  for genre in sort(collect(keys(grouped)))
-    genre_notes = grouped[genre]
-    preview = ["<li><a href=\"/$(note.route)\">$(note.title)</a></li>" for note in Iterators.take(genre_notes, 3)]
-    push!(parts, """
-    <section class="note-panel">
-      <h3 id="$(_slugify(genre))" class="note-panel-title"><a href="/notes/genres/#$(_slugify(genre))">$(genre)</a></h3>
-      <p class="note-panel-meta">$(length(genre_notes)) notes</p>
-      <ul class="note-mini-list">$(join(preview, ""))</ul>
-    </section>
-    """)
-  end
-  push!(parts, "</div>")
-  return join(parts, "\n")
-end
 
 function hfun_notes_tags_overview()
   notes = _collect_notes()
@@ -201,34 +172,16 @@ function hfun_notes_tags_overview()
   isempty(counts) && return "<p>No tags yet.</p>"
   ordered = sort(collect(keys(counts)); by = tag -> (-counts[tag], lowercase(tag)))
   parts = String[]
-  push!(parts, "<div class=\"notes-tag-cloud\">")
+  push!(parts, "<div class=\"notes-tag-inline-list\">")
   for tag in ordered
     push!(parts, """
-    <a class="note-tag-link" href="/notes/tags/#$(_slugify(tag))">
-      <span class="note-tag">$(tag)</span>
-      <span class="note-tag-count">$(counts[tag])</span>
+    <a class="notes-inline-tag" href="$(_tag_path(tag))">
+      <span class="notes-inline-tag-name">$(tag)</span>
+      <span class="notes-inline-tag-count">$(counts[tag])</span>
     </a>
     """)
   end
   push!(parts, "</div>")
-  return join(parts, "\n")
-end
-
-function hfun_notes_genres_page()
-  notes = _collect_notes()
-  isempty(notes) && return "<p>No genres yet.</p>"
-  grouped = _notes_by_genre(notes)
-  parts = String[]
-  for genre in sort(collect(keys(grouped)))
-    genre_notes = grouped[genre]
-    push!(parts, """
-    <section class="notes-section-block">
-      <h2 id="$(_slugify(genre))">$(genre)</h2>
-      <p class="note-panel-meta">$(length(genre_notes)) notes</p>
-      <div class="notes-stack">$(join([_render_note_item(note) for note in genre_notes], "\n"))</div>
-    </section>
-    """)
-  end
   return join(parts, "\n")
 end
 
@@ -238,15 +191,27 @@ function hfun_notes_tags_page()
   isempty(counts) && return "<p>No tags yet.</p>"
   parts = String[]
   ordered = sort(collect(keys(counts)); by = tag -> (-counts[tag], lowercase(tag)))
+  push!(parts, "<div class=\"notes-simple-list\">")
   for tag in ordered
-    tagged_notes = [note for note in notes if tag in note.tags]
     push!(parts, """
-    <section class="notes-section-block">
-      <h2 id="$(_slugify(tag))">$(tag)</h2>
-      <p class="note-panel-meta">$(counts[tag]) notes</p>
-      <div class="notes-stack">$(join([_render_note_item(note) for note in tagged_notes], "\n"))</div>
-    </section>
+    <div class="notes-simple-item" id="$(_slugify(tag))">
+      <a class="notes-simple-link" href="$(_tag_path(tag))">$(tag)</a>
+      <span class="notes-simple-count">$(counts[tag])</span>
+    </div>
     """)
   end
+  push!(parts, "</div>")
   return join(parts, "\n")
+end
+
+function hfun_notes_tag_detail(vname)
+  length(vname) == 1 || return "<p>Tag slug is required.</p>"
+  slug = strip(String(vname[1]))
+  counts = _note_tag_counts(_collect_notes())
+  tag_map = Dict(_slugify(tag) => tag for tag in keys(counts))
+  haskey(tag_map, slug) || return "<p>No notes found for this tag.</p>"
+  tag = tag_map[slug]
+  tagged_notes = _tagged_notes(tag)
+  isempty(tagged_notes) && return "<p>No notes found for this tag.</p>"
+  return "<div class=\"notes-stack\">" * join([_render_note_item(note) for note in tagged_notes], "\n") * "</div>"
 end

@@ -1,7 +1,6 @@
 +++
 title = "History of Machine Learning Potential (draft)"
-genre = "Simulation"
-tags = ["force field", "machine learning potential"]
+tags = ["simulation", "force field", "machine learning potential"]
 summary = ""
 +++
 

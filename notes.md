@@ -1,16 +1,9 @@
 # Notes
 This page is the hub for technical notes, research memos, and small how-tos.
-Browse recent posts first, or jump by genre and tag.
-
-## Quick Navigation
-- [Browse all genres](/notes/genres/)
-- [Browse all tags](/notes/tags/)
+Browse recent posts first, or jump by tag.
 
 ## Recent Notes
 {{notes_recent}}
-
-## Browse by Genre
-{{notes_genres_overview}}
 
 ## Browse by Tag
 {{notes_tags_overview}}
