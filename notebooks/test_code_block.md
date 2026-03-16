@@ -5,11 +5,9 @@ summary = ""
 +++
 
 # test code block.
-
 This note is for checking code block styling and copy-button behavior.
 
 ## Julia
-
 ```julia
 using LinearAlgebra
 
@@ -21,7 +19,6 @@ println(x)
 ```
 
 ## Python
-
 ```python
 from pathlib import Path
 
@@ -33,13 +30,11 @@ for path in markdown_files:
 ```
 
 ## Bash
-
 ```bash
 julia --project=. dev.jl
 ```
 
 ## Plain text
-
 ```text
 The quick brown fox jumps over the lazy dog.
 Copy this block to verify the button state changes correctly.

@@ -61,16 +61,18 @@ pre.code-block-wrap {
 
 .code-copy-button {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0.18rem;
+  right: 0.35rem;
   z-index: 1;
+  display: inline-flex;
+  align-items: center;
   border: 1px solid #d1d5db;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
   color: #374151;
-  font-size: 0.68rem;
-  line-height: 1;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.62rem;
+  line-height: 1.2;
+  padding: 0.14rem 0.42rem;
   cursor: pointer;
 }
 
