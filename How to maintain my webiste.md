@@ -59,6 +59,32 @@ julia> serve() # Or serve(port=8000)
 - Your website is launched locally.
 - The website launched is interactively updated while you modify content. So, this is a good way to check what you wrote.
 
+## 2.1 Add or publish notes from the command line
+Create a new public note:
+```bash
+julia --project=. scripts/new_note.jl "My note title"
+```
+
+Create a draft:
+```bash
+julia --project=. scripts/new_draft.jl "My draft title"
+```
+
+You can optionally pass a subdirectory:
+```bash
+julia --project=. scripts/new_note.jl "PyMOL tips" resources
+```
+
+Publish a draft into `notebooks/`:
+```bash
+julia --project=. scripts/publish_note.jl my-draft-title
+```
+
+Or publish it into a subdirectory:
+```bash
+julia --project=. scripts/publish_note.jl my-draft-title resources
+```
+
 ## 3. Build locally when you want to verify the production output
 ```bash
 julia --project=. build.jl
