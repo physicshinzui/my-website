@@ -1,3 +1,6 @@
+@def title = "About Me"
+@def description = "Profile, research experience, and background of Shinji Iida."
+
 # About me
 
 ## Research Keywords

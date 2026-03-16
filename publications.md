@@ -1,3 +1,6 @@
+@def title = "Publications"
+@def description = "Publications, grants, and research support for Shinji Iida."
+
 # Contents
 \toc
 

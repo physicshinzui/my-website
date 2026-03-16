@@ -13,9 +13,12 @@ ignore = ["node_modules/", "drafts/"]
 
 # RSS (the website_{title, descr, url} must be defined to get RSS)
 generate_rss = true
-website_title = "Shinji's website"
-website_descr = "Shinji's website"
+website_title = "Shinji Iida"
+website_descr = "Research notes, publications, and profile of Shinji Iida, a computational biophysicist."
 website_url   = "https://s-iida.com"
+website_image = "/assets/IMG_3089.jpg"
+twitter_handle = "@_siida_"
+ga_measurement_id = "G-K27NB3FXGB"
 +++
 
 <!--

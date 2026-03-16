@@ -1,5 +1,166 @@
 using Dates
 
+function _string_var(value)
+  value isa AbstractString || return nothing
+  cleaned = strip(String(value))
+  return isempty(cleaned) ? nothing : cleaned
+end
+
+function _html_escape(value)
+  escaped = replace(String(value), "&" => "&amp;")
+  escaped = replace(escaped, "\"" => "&quot;")
+  escaped = replace(escaped, "<" => "&lt;")
+  escaped = replace(escaped, ">" => "&gt;")
+  return escaped
+end
+
+function _normalize_ws(value)
+  return strip(replace(String(value), r"\s+" => " "))
+end
+
+function _page_title()
+  tag = _string_var(locvar(:fd_tag))
+  tag !== nothing && return "Tag: " * tag
+  title = _string_var(locvar(:title))
+  title !== nothing && return title
+  route = _current_route()
+  route === nothing && return nothing
+  leaf = split(route, "/") |> last
+  leaf = replace(leaf, "-" => " ", "_" => " ")
+  return titlecase(leaf)
+end
+
+function _page_description()
+  tag = _string_var(locvar(:fd_tag))
+  tag !== nothing && return "Notes and pages tagged " * tag * "."
+  for candidate in (
+    _string_var(locvar(:description)),
+    _string_var(locvar(:summary)),
+  )
+    candidate !== nothing && return _normalize_ws(candidate)
+  end
+
+  route = _current_route()
+  route !== nothing || return nothing
+  summary = _note_summary(route)
+  summary === nothing && return nothing
+  return _normalize_ws(summary)
+end
+
+function _page_image()
+  image = _string_var(locvar(:image))
+  image !== nothing && return image
+  return _string_var(globvar("website_image"))
+end
+
+function _absolute_url(path)
+  base = rstrip(String(globvar("website_url")), '/')
+  if path isa Nothing
+    return base * "/"
+  end
+  cleaned = strip(String(path))
+  startswith(cleaned, "http://") && return cleaned
+  startswith(cleaned, "https://") && return cleaned
+  cleaned = replace(cleaned, r"/index\.html$" => "/")
+  cleaned = replace(cleaned, r"/index/$" => "/")
+  cleaned == "index.html" && return base * "/"
+  cleaned == "index/" && return base * "/"
+  cleaned = "/" * lstrip(cleaned, '/')
+  return base * cleaned
+end
+
+function _is_homepage()
+  fd_url = _string_var(locvar(:fd_url))
+  if fd_url !== nothing
+    normalized = _absolute_url(fd_url)
+    return normalized == rstrip(String(globvar("website_url")), '/') * "/"
+  end
+  route = _current_route()
+  return route === nothing || route == "index" || route == "index.html"
+end
+
+function hfun_meta_title()
+  site_title = something(_string_var(globvar("website_title")), "Website")
+  page_title = _page_title()
+  if page_title === nothing || _is_homepage() || page_title == site_title
+    return _html_escape(site_title)
+  end
+  return _html_escape(page_title * " | " * site_title)
+end
+
+function hfun_meta_description()
+  description = something(
+    _page_description(),
+    _string_var(globvar("website_descr")),
+    "Research notes, publications, and profile of Shinji Iida, a computational biophysicist.",
+  )
+  return _html_escape(description)
+end
+
+function hfun_meta_url()
+  fd_url = _string_var(locvar(:fd_url))
+  return _html_escape(_absolute_url(fd_url))
+end
+
+function hfun_meta_image()
+  image = _page_image()
+  image === nothing && return ""
+  return _html_escape(_absolute_url(image))
+end
+
+function hfun_meta_type()
+  route = _current_route()
+  return route !== nothing && startswith(route, "notebooks/") ? "article" : "website"
+end
+
+function hfun_meta_tags()
+  title = hfun_meta_title()
+  description = hfun_meta_description()
+  url = hfun_meta_url()
+  image = hfun_meta_image()
+  site_name = _html_escape(something(_string_var(globvar("website_title")), "Website"))
+  twitter_handle = _string_var(globvar("twitter_handle"))
+  lines = [
+    "<title>$(title)</title>",
+    "<meta name=\"description\" content=\"$(description)\">",
+    "<link rel=\"canonical\" href=\"$(url)\">",
+    "<meta property=\"og:locale\" content=\"en_US\">",
+    "<meta property=\"og:site_name\" content=\"$(site_name)\">",
+    "<meta property=\"og:type\" content=\"$(hfun_meta_type())\">",
+    "<meta property=\"og:title\" content=\"$(title)\">",
+    "<meta property=\"og:description\" content=\"$(description)\">",
+    "<meta property=\"og:url\" content=\"$(url)\">",
+    "<meta name=\"twitter:card\" content=\"summary_large_image\">",
+    "<meta name=\"twitter:title\" content=\"$(title)\">",
+    "<meta name=\"twitter:description\" content=\"$(description)\">",
+  ]
+  if !isempty(image)
+    push!(lines, "<meta property=\"og:image\" content=\"$(image)\">")
+    push!(lines, "<meta name=\"twitter:image\" content=\"$(image)\">")
+  end
+  if twitter_handle !== nothing
+    escaped_handle = _html_escape(twitter_handle)
+    push!(lines, "<meta name=\"twitter:site\" content=\"$(escaped_handle)\">")
+  end
+  return join(lines, "\n  ")
+end
+
+function hfun_google_analytics()
+  measurement_id = _string_var(globvar("ga_measurement_id"))
+  measurement_id === nothing && return ""
+  startswith(measurement_id, "G-") || return ""
+  escaped = _html_escape(measurement_id)
+  return """
+  <script async src="https://www.googletagmanager.com/gtag/js?id=$(escaped)"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '$(escaped)');
+  </script>
+  """
+end
+
 function hfun_bar(vname)
   val = Meta.parse(vname[1])
   return round(sqrt(val), digits=2)

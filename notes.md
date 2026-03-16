@@ -1,3 +1,6 @@
+@def title = "Notes"
+@def description = "Technical notes, research memos, and small how-tos by Shinji Iida."
+
 # Notes
 This page is the hub for technical notes, research memos, and small how-tos.
 Browse recent posts first, or jump by tag.

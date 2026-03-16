@@ -1,3 +1,6 @@
+@def title = "Research"
+@def description = "Research overview covering molecular dynamics, enhanced sampling, and biomolecular modeling."
+
 # Overview of my research:
 
 \toc

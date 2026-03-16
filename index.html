@@ -7,43 +7,14 @@
 -->
 <html lang="en" class="no-js" >
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154771635-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-154771635-1');
-    </script>
-
     <meta charset="utf-8">
-    <title>shinji's website</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{meta_tags}}
     <script>
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
     </script>
-    <!-- For all browsers -->
-    <link rel="stylesheet" href="/css/minimal-mistakes.css">
-    
-    <!--[if IE ]>
-      <style>
-        /* old IE unsupported flexbox fixes */
-        .greedy-nav .site-title {
-          padding-right: 4em;
-        }
-        .greedy-nav button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          height: 100%;
-        }
-      </style>
-    <![endif]-->
-    <!-- start custom head snippets -->
-    <!-- insert favicons. use https://realfavicongenerator.net/ -->
-    <link rel="icon" href="/assets/usa_free.svg">
-    <!-- end custom head snippets -->
+    {{insert style.html}}
+    {{google_analytics}}
   </head>
 <body class="layout--splash">
 {{ insert masthead.html }}
@@ -60,7 +31,7 @@
 
   <div id="main" role="main">
     <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="description" content="A flexible two-column Jekyll theme. Perfect for building personal sites, blogs, and portfolios. Latest release v4.16.4">
+      <meta itemprop="description" content="Research notes, publications, and profile of Shinji Iida, a computational biophysicist.">
       <section class="page__content" itemprop="text">
         <div class="feature__wrapper">
           <div class="feature__item">
