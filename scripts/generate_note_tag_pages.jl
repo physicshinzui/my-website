@@ -78,9 +78,10 @@ function write_tag_pages(tags, outdir)
 
     # Tag: $tag
 
+    @@notes-back-links
     [Back to Tags](/notes/tags/)
-
     [Back to Notes](/notes/)
+    @@
 
     {{notes_tag_detail $slug}}
     """)
@@ -109,9 +110,10 @@ function write_archive_pages(months, outdir)
 
     # Archive: $month
 
+    @@notes-back-links
     [Back to Archive](/notes/archive/)
-
     [Back to Notes](/notes/)
+    @@
 
     {{notes_archive_detail $month}}
     """)

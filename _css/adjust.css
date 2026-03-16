@@ -289,6 +289,23 @@ h5 a:visited { color: #1c1c1c !important; }
   margin-left: 0.25rem;
 }
 
+.notes-back-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: -0.15rem 0 1.2rem 0;
+  font-size: 0.86rem;
+}
+
+.notes-back-links a {
+  color: #6b7280 !important;
+  text-decoration: none !important;
+}
+
+.notes-back-links a:hover {
+  color: #1c1c1c !important;
+}
+
 .admonition {
   background: #f8fafc;
   border: 1px solid #e5e7eb;
