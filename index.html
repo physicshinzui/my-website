@@ -20,12 +20,18 @@
 {{ insert masthead.html }}
 
 <div class="initial-content">
-  <div class="page__hero--overlay"
-    style="background-color: #5e616c; background-image: url('/assets/water.png');">
-    <!--style="background-color: #5e616c; background-image: url('/assets/minimal-mistakes/mm-home-page-feature.jpg');"> -->
-    <div class="wrapper">
-      <h1 id="page-title" class="page__title" itemprop="headline">Shinji's Website</h1>
-      <p class="page__lead">Computational Biophysicist</p>
+  <div class="page__hero--overlay home-hero-shell"
+    style="background-color: #17324a; background-image: linear-gradient(135deg, rgba(10, 27, 44, 0.88), rgba(23, 50, 74, 0.72)), url('/assets/water.png');">
+    <div class="wrapper home-hero-grid">
+      <div class="home-hero-copy">
+        <p class="home-kicker">Computational Biophysics</p>
+        <h1 id="page-title" class="page__title home-page-title" itemprop="headline">Shinji Iida</h1>
+        <p class="page__lead home-lead">Molecular dynamics, enhanced sampling, and machine learning for biomolecular structure and function.</p>
+        <div class="home-actions">
+          <a href="/research" class="btn btn--primary home-primary-action">Explore Research</a>
+          <a href="/publications" class="home-secondary-action">View Publications</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -33,65 +39,48 @@
     <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
       <meta itemprop="description" content="Research notes, publications, and profile of Shinji Iida, a computational biophysicist.">
       <section class="page__content" itemprop="text">
-        <div class="feature__wrapper">
-          <div class="feature__item">
-            <!-- <div class="archive__item"> -->
-            <div class="archive__item archive__item_flex">　
-              <div class="archive__item-teaser">
-
-                <div style="width: 150px; height: auto" >
-                  <img src="/assets/akazukin.svg" alt="customizable">
-                </div>
-
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">About Me</h2>
-                <div class="archive__item-excerpt">
-
-                </div>
-                <!-- <p><a href="/profile" class="btn btn--primary">Show details</a></p> -->
-                <div class="archive__item-btn"><a href="/profile" class="btn btn--primary">Show details</a></div>
-
-              </div>
+        <div class="home-card-grid">
+          <div class="home-card">
+            <div class="home-card-icon">
+              <img src="/assets/akazukin.svg" alt="About me" />
             </div>
+            <p class="home-card-eyebrow">Profile</p>
+            <h2 class="home-card-title">About Me</h2>
+            <p class="home-card-text">Background, research experience, and current academic position.</p>
+            <a href="/profile" class="home-card-link">Open profile</a>
           </div>
-          <div class="feature__item">
-            <!-- <div class="archive__item"> -->
-            <div class="archive__item archive__item_flex">　              
-              <div class="archive__item-teaser">
-                <div style="width: 150px; height: auto" >
-                  <img src="/assets/science.svg" alt="research" />
-                </div>
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Research</h2>
-                <div class="archive__item-excerpt">
 
-                </div>
-                <!-- <p><a href="/research" class="btn btn--primary">Show details</a></p> -->
-                <div class="archive__item-btn"><a href="/research" class="btn btn--primary">Show details</a></div>
-              </div>
+          <div class="home-card">
+            <div class="home-card-icon">
+              <img src="/assets/science.svg" alt="Research" />
             </div>
+            <p class="home-card-eyebrow">Themes</p>
+            <h2 class="home-card-title">Research</h2>
+            <p class="home-card-text">Current projects in molecular simulation, cryptic pockets, and protein ensembles.</p>
+            <a href="/research" class="home-card-link">Explore topics</a>
           </div>
-          <div class="feature__item">
-            <!-- <div class="archive__item"> -->
-            <div class="archive__item archive__item_flex">　
-              <div class="archive__item-teaser">
-                <div style="width: 150px; height: auto">
-                  <img src="/assets/book.png" alt="100% free" />
-                </div>
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Publications</h2>
-                <div class="archive__item-excerpt">
 
-                </div>
-                <!-- <p><a href=ublications" class="btn btn--primary">Show details</a></p> -->
-                <div class="archive__item-btn"><a href=/publications class="btn btn--primary">Show details</a></div>
-              </div>
+          <div class="home-card">
+            <div class="home-card-icon">
+              <img src="/assets/book.png" alt="Publications" />
             </div>
+            <p class="home-card-eyebrow">Output</p>
+            <h2 class="home-card-title">Publications</h2>
+            <p class="home-card-text">Papers, research support, and related academic record in one place.</p>
+            <a href="/publications" class="home-card-link">Browse publications</a>
+          </div>
+
+          <div class="home-card">
+            <div class="home-card-icon">
+              <img src="/assets/kaeru.svg" alt="Notes" />
+            </div>
+            <p class="home-card-eyebrow">Working Notes</p>
+            <h2 class="home-card-title">Notes</h2>
+            <p class="home-card-text">Technical memos, small how-tos, and reusable research workflows.</p>
+            <a href="/notes" class="home-card-link">Read notes</a>
           </div>
         </div>
+
       </section>
     </article>
 
