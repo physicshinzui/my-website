@@ -49,3 +49,5 @@ f'(x) = 2x + 2.
 \proof{
 Apply the mean value theorem to $f$ on the interval $[a,b]$. The assumptions guarantee the existence of such a point $c$.
 }
+
+
