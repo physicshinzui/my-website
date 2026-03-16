@@ -3,9 +3,10 @@ title = "Dataset: Molecular dynamics trajectories of protein folding (Educationa
 tags = ["dataset", "molecular dynamics", "protein"]
 summary = ""
 date = Date(2022, 3, 13)
+
 +++
 
-# Dataset: Molecular dynamics trajectories of protein folding (Educational purposes)
+# Dataset: Molecular dynamics trajectories of protein folding
 Dataset is available on Zenodo: 
 - [Molecular dynamics trajectories of protein folding](https://zenodo.org/record/6349893#.YjAluBBBz0o). 
 

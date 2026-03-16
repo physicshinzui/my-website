@@ -144,25 +144,3 @@ For footer
   margin-bottom: 4em;
 }
 ```
-
-
-
-## DON'T USE! ~~Push source to Github~~
-I made a script below:
-```bash 
-#!/bin/bash
-set -e
-cd physicshinzui.github.io
-git rm -r *
-cp -rp ../02-mywebsite_byfranklin/__site/* .
-git add .
-git commit -m 'update'
-git push
-cd -
-```
-
-where 
-1.  `physicshinzui.github.io` is a repo in a local environment but is related to my GitHub page. 
-2. Delete all in the repo (as if `make clean`)
-3. Take all files from `franklin_ver/__site/*`, which includes all files needed to build my website. 
-4. Take the same action as when we push on Github.

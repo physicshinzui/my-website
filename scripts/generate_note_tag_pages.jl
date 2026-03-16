@@ -13,7 +13,13 @@ function read_frontmatter(path)
   if length(lines) >= 3 && strip(lines[1]) == "+++"
     closing = findfirst(i -> strip(lines[i]) == "+++", 2:length(lines))
     if closing !== nothing
-      return TOML.parse(join(lines[2:closing-1], "\n"))
+      content = join(lines[2:closing-1], "\n")
+      content = replace(
+        content,
+        r"date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)" =>
+          s"date = \"\1-\2-\3\"",
+      )
+      return TOML.parse(content)
     end
   end
   return Dict{String, Any}()
