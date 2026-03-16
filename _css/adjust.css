@@ -1,3 +1,28 @@
+body,
+.greedy-nav,
+.page__footer,
+.archive,
+.author__urls,
+.franklin-content {
+  font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.site-title,
+.page__title,
+.archive__item-title {
+  font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+
+code,
+pre,
+.franklin-content code,
+.franklin-content pre,
+.franklin-content .hljs {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
 /* on narrow device, reduce margins */
 @media (min-width: 940px) {
   .franklin-content {
@@ -17,14 +42,6 @@ pre {
   font-size: 17px;
 }
 
-.franklin-content code {
-  font-size: 14px;
-}
-
-.franklin-content .hljs {
-  font-size: 14px;
-}
-
 blockquote {
   font-size: 90%;
 }
@@ -41,8 +58,6 @@ blockquote {
 
 .franklin-content a {
   text-decoration: none;
-  /* Shinji added to change the font of h1, h2, ... */
-  font-family: "Avenir Next" 
 }
 
 /* For some reason,
