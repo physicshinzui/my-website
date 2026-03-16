@@ -1,11 +1,15 @@
 +++
-title = "test note"
-tags = ["misc", "test"]
+title = "test"
+tags = ["math"]
 summary = ""
 +++
 
-# test note
+
+$$
+y = ax
+$$
 
 ```
-code block
+for i in range(10):
+  print(i)
 ```

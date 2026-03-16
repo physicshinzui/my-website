@@ -111,6 +111,14 @@ function _format_note_date(note)
   return Dates.format(note.date, dateformat"yyyy-mm-dd")
 end
 
+function _format_note_month(note)
+  return Dates.format(note.date, dateformat"yyyy-mm")
+end
+
+function _archive_path(month)
+  return "/notes/archive/$(month)/"
+end
+
 function _tag_path(tag)
   return "/notes/tags/$(_slugify(tag))/"
 end
@@ -129,13 +137,34 @@ function _render_tag_pills(tags; link_tags = true)
   return "<div class=\"note-tags\">" * join(pills, "") * "</div>"
 end
 
+function _archive_counts(notes)
+  counts = Dict{String, Int}()
+  for note in notes
+    month = _format_note_month(note)
+    counts[month] = get(counts, month, 0) + 1
+  end
+  return counts
+end
+
+function _notes_by_month(notes)
+  grouped = Dict{String, Vector{typeof(notes[1])}}()
+  for note in notes
+    month = _format_note_month(note)
+    push!(get!(grouped, month, typeof(notes[1])[]), note)
+  end
+  return grouped
+end
+
 function _render_note_item(note)
   meta = "<div class=\"note-meta\">$(_format_note_date(note))</div>"
   summary = note.summary === nothing ? "" : "<p class=\"note-summary\">$(note.summary)</p>"
   tags = _render_tag_pills(note.tags)
   return """
   <article class="note-item">
-    <h3 class="note-title"><a href="/$(note.route)">$(note.title)</a></h3>
+    <div class="note-item-head">
+      <h3 class="note-title"><a href="/$(note.route)">$(note.title)</a></h3>
+      <a class="note-month" href="$(_archive_path(_format_note_month(note)))">$(_format_note_month(note))</a>
+    </div>
     $(meta)
     $(summary)
     $(tags)
@@ -202,6 +231,50 @@ function hfun_notes_tags_page()
   end
   push!(parts, "</div>")
   return join(parts, "\n")
+end
+
+function hfun_notes_archive_overview()
+  notes = _collect_notes()
+  counts = _archive_counts(notes)
+  isempty(counts) && return "<p>No archive yet.</p>"
+  months_by_year = Dict{String, Vector{String}}()
+  for month in keys(counts)
+    year = first(split(month, "-"))
+    push!(get!(months_by_year, year, String[]), month)
+  end
+  parts = String[]
+  for year in sort(collect(keys(months_by_year)); rev = true)
+    push!(parts, "<div class=\"archive-year-block\">")
+    push!(parts, "<div class=\"archive-year\">$(year)</div>")
+    push!(parts, "<div class=\"archive-month-list\">")
+    for month in sort(months_by_year[year]; rev = true)
+      mm = split(month, "-")[2]
+      push!(parts, """
+      <div class="archive-month-item">
+        <a class="archive-month-link" href="$(_archive_path(month))">
+          <span class="archive-month-name">$(mm)</span>
+          <span class="archive-month-count">($(counts[month]))</span>
+        </a>
+      </div>
+      """)
+    end
+    push!(parts, "</div></div>")
+  end
+  return join(parts, "\n")
+end
+
+function hfun_notes_archive_page()
+  return hfun_notes_archive_overview()
+end
+
+function hfun_notes_archive_detail(vname)
+  length(vname) == 1 || return "<p>Archive month is required.</p>"
+  month = strip(String(vname[1]))
+  notes = _collect_notes()
+  grouped = _notes_by_month(notes)
+  haskey(grouped, month) || return "<p>No notes found for this month.</p>"
+  month_notes = grouped[month]
+  return "<div class=\"notes-stack\">" * join([_render_note_item(note) for note in month_notes], "\n") * "</div>"
 end
 
 function hfun_notes_tag_detail(vname)
