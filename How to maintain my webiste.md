@@ -7,21 +7,24 @@
 ### Julia
 ```
 julia> versioninfo()
-Julia Version 1.7.1
-Commit ac5cc99908 (2021-12-22 19:35 UTC)
+Julia Version 1.11.0
+Commit 501a4f25c2b (2024-10-07 11:40 UTC)
+Build Info:
+  Official https://julialang.org/ release
 Platform Info:
-  OS: macOS (arm64-apple-darwin21.2.0)
-  CPU: Apple M1
+  OS: macOS (arm64-apple-darwin22.4.0)
+  CPU: 8 × Apple M3
   WORD_SIZE: 64
-  LIBM: libopenlibm
-  LLVM: libLLVM-12.0.1 (ORCJIT, cyclone)
+  LLVM: libLLVM-16.0.6 (ORCJIT, apple-m3)
+Threads: 1 default, 0 interactive, 1 GC (on 4 virtual cores)
 ```
 
 ### Franklin  
 ```
-(@v1.7) pkg> st Franklin
-      Status `~/.julia/environments/v1.7/Project.toml`
-  [713c75ef] Franklin v0.10.72
+(@v1.11) pkg> st Franklin
+Status `~/.julia/environments/v1.11/Project.toml`
+⌃ [713c75ef] Franklin v0.10.95
+Info Packages marked with ⌃ have new versions available and may be upgradable.
 ```
 
 ## 1. Go to your franklin project directory, which should be like:
