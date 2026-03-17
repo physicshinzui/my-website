@@ -32,6 +32,8 @@ $$
 
 ## Gromacsにおけるcmapの記述箇所の例
 
+Gromacsのtopologyファイルを参照すると行`cmaptypes`以下にcmapの情報が書かれています．以下が例になります：
+
 ```
 [ cmaptypes ]
 
@@ -84,18 +86,23 @@ C NH1 CT1 C NH1 1 24 24\
 
 
 
-CMAPの情報がtopology fileにい含まれているかを確認したjupyter notebookもおきました：
+どのようなCMAPの情報がtopology fileに書かれているかを確認したjupyter notebookを[ここ](https://drive.google.com/drive/folders/1sTWo0KKmRRw5bSbPlPs3cC1FXrRzaMhc?usp=sharing)におきました．結果の図({{figref id="cmap-comparison"}} )だけ載せておきます．
 
-`/Users/siida/Dropbox/00_home/00-shinji-vault/02-Research/07-gen_protein/cmap_inspection`にちゃんとcmapの情報がtopology fileに含まれているかを確認したnotebookを置いた．
+{{figure id="cmap-comparison" src="/assets/cmap/cmap_comparison.png" caption="CMAP landscape" size="wide" alt="cmap_comparison"}}
 
 
-# CMAPに対するスケーリングの影響の確認
-2025-06-13
-ok.自分の書いたスクリプトは間違いなさそうです．
 
-![[cmap_correction_observation_hrex.excalidraw]]
+
+
+## H-REMDにおけるCMAPに対するスケーリング
+Hamiltonian-replica exchange MDをする際には，異なるレプリカ間のポテンシャルをスケーリングしますが，PLUMEDと呼ばれるソフトウェアでの実装では，デフォルト(2026-3時点)だとCMAPがスケーリングされません．なので，自前でトポロジーファイルをスケーリングするスクリプトを作成する必要があります．うまくスケーリングできているなら，以下のような図になるはずです：
+
+
+
+{{figure id="cmap-scaling" src="/assets/cmap/cmap_scaling_effect.png" caption="CMAP scaling effect" size="wide" alt="cmap_comparison"}}
 
 
 
 ## References
+
 {{references}}

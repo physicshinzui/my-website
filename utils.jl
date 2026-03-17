@@ -1,6 +1,7 @@
 using Dates
 
 const _BIB_CACHE = Ref{Any}(nothing)
+const _FIGURE_CACHE = Dict{String, NamedTuple{(:mtime, :numbers), Tuple{Float64, Dict{String, Int}}}}()
 
 function _string_var(value)
   value isa AbstractString || return nothing
@@ -18,6 +19,90 @@ end
 
 function _normalize_ws(value)
   return strip(replace(String(value), r"\s+" => " "))
+end
+
+function _figure_slug(value)
+  slug = strip(String(value))
+  slug = replace(slug, r"\s+" => "-")
+  slug = replace(slug, r"[^A-Za-z0-9_-]" => "-")
+  slug = replace(slug, r"-{2,}" => "-")
+  slug = strip(slug, '-')
+  return isempty(slug) ? "figure" : slug
+end
+
+function _figure_anchor_id(value)
+  slug = _figure_slug(value)
+  return startswith(slug, "fig-") ? slug : "fig-" * slug
+end
+
+function _figure_size_class(value)
+  size = lowercase(strip(String(value)))
+  size == "small" && return ("md-figure-small", "md-figure-caption-small")
+  size == "wide" && return ("md-figure-wide", "md-figure-caption-wide")
+  return ("md-figure-medium", "md-figure-caption-medium")
+end
+
+function _parse_named_params(params::AbstractVector{<:AbstractString})
+  options = Dict{String, String}()
+  positional = String[]
+  idx = 1
+  while idx <= length(params)
+    param = params[idx]
+    parsed = Base.match(r"^([A-Za-z][A-Za-z0-9_-]*)=(.*)$"s, param)
+    if parsed === nothing
+      push!(positional, param)
+      idx += 1
+      continue
+    end
+    key = lowercase(parsed.captures[1])
+    value = strip(parsed.captures[2])
+    if isempty(value) && idx < length(params)
+      idx += 1
+      value = strip(params[idx])
+    end
+    options[key] = value
+    idx += 1
+  end
+  return positional, options
+end
+
+function _figure_id_from_params(params::AbstractVector{<:AbstractString})
+  positional, options = _parse_named_params(params)
+  if haskey(options, "id")
+    return options["id"]
+  end
+  return isempty(positional) ? "" : positional[1]
+end
+
+function _page_figure_numbers(route)
+  route === nothing && return Dict{String, Int}()
+  path = _route_source_path(route)
+  path === nothing && return Dict{String, Int}()
+  stamp = mtime(path)
+  cached = get(_FIGURE_CACHE, route, nothing)
+  if cached !== nothing && cached.mtime == stamp
+    return cached.numbers
+  end
+
+  text = read(path, String)
+  numbers = Dict{String, Int}()
+  for capture in eachmatch(r"\{\{\s*figure\s+((?:.|\n)*?)\s*\}\}"s, text)
+    params = Franklin.split_hfun_parameters(capture.captures[1])
+    isempty(params) && continue
+    figure_id = _figure_id_from_params(params)
+    isempty(strip(figure_id)) && continue
+    anchor = _figure_anchor_id(figure_id)
+    haskey(numbers, anchor) && continue
+    numbers[anchor] = length(numbers) + 1
+  end
+
+  _FIGURE_CACHE[route] = (mtime = stamp, numbers = numbers)
+  return numbers
+end
+
+function _figure_number(route, value)
+  numbers = _page_figure_numbers(route)
+  return get(numbers, _figure_anchor_id(value), 0)
 end
 
 function _page_title()
@@ -183,6 +268,45 @@ function hfun_page_last_modified()
     return ""
   end
   return "Last modified: " * value
+end
+
+function hfun_figure(params::Vector{String})
+  positional, options = _parse_named_params(params)
+
+  id = get(options, "id", length(positional) >= 1 ? positional[1] : "")
+  src = get(options, "src", length(positional) >= 2 ? positional[2] : "")
+  caption = get(options, "caption", length(positional) >= 3 ? positional[3] : "")
+  size = get(options, "size", length(positional) >= 4 ? positional[4] : "medium")
+  alt = get(options, "alt", length(positional) >= 5 ? positional[5] : caption)
+
+  isempty(strip(id)) && return ""
+  isempty(strip(src)) && return ""
+  isempty(strip(caption)) && return ""
+
+  route = _current_route()
+  number = _figure_number(route, id)
+  label = number > 0 ? "Figure $(number)." : "Figure."
+  anchor = _figure_anchor_id(id)
+  image_class, caption_class = _figure_size_class(size)
+
+  return """
+  <figure id="$(_html_escape(anchor))" class="md-figure-block">
+    <img class="$(_html_escape(image_class))" src="$(_html_escape(src))" alt="$(_html_escape(alt))">
+    <figcaption class="md-figure-caption $(_html_escape(caption_class))">$(_html_escape(label)) $(_html_escape(caption))</figcaption>
+  </figure>
+  """
+end
+
+function hfun_figref(params::Vector{String})
+  isempty(params) && return "Figure ?"
+  positional, options = _parse_named_params(params)
+  id = get(options, "id", isempty(positional) ? "" : positional[1])
+  isempty(strip(id)) && return "Figure ?"
+  route = _current_route()
+  number = _figure_number(route, id)
+  anchor = _figure_anchor_id(id)
+  label = number > 0 ? "Figure $(number)" : "Figure ?"
+  return "<a href=\"#$(_html_escape(anchor))\">$(_html_escape(label))</a>"
 end
 
 function _current_route()

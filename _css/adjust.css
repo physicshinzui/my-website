@@ -352,6 +352,76 @@ h5 a:visited { color: #1c1c1c !important; }
   border-radius: 1rem;
 }
 
+.franklin-content img.md-figure {
+  display: block;
+  width: 80%;
+  max-width: 900px;
+  height: auto;
+  margin: 1.25rem auto;
+  padding-left: 0;
+}
+
+.franklin-content img.md-figure-small {
+  display: block;
+  width: 55%;
+  max-width: 560px;
+  height: auto;
+  margin: 1.25rem auto;
+  padding-left: 0;
+}
+
+.franklin-content img.md-figure-medium {
+  display: block;
+  width: 80%;
+  max-width: 900px;
+  height: auto;
+  margin: 1.25rem auto;
+  padding-left: 0;
+}
+
+.franklin-content img.md-figure-wide {
+  display: block;
+  width: 95%;
+  max-width: 1200px;
+  height: auto;
+  margin: 1.25rem auto;
+  padding-left: 0;
+}
+
+.franklin-content figure.md-figure-block {
+  margin: 1.25rem auto;
+}
+
+.franklin-content figure.md-figure-block img {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.franklin-content figcaption.md-figure-caption {
+  width: 80%;
+  max-width: 900px;
+  margin: 0.5rem auto 0;
+  color: #5b6770;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.franklin-content figcaption.md-figure-caption-small {
+  width: 55%;
+  max-width: 560px;
+}
+
+.franklin-content figcaption.md-figure-caption-medium {
+  width: 80%;
+  max-width: 900px;
+}
+
+.franklin-content figcaption.md-figure-caption-wide {
+  width: 95%;
+  max-width: 1200px;
+}
+
 .page-panel ol,
 .page-panel ul {
   padding-left: 1.2rem;
