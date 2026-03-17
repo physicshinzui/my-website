@@ -109,6 +109,27 @@ Print the references cited on that page:
 {{references}}
 ```
 
+Add an auto-numbered figure and refer to it:
+```md
+{{figure id="cmap-comparison" src="/assets/cmap/cmap_comparison.png" caption="CMAP landscape" size="wide" alt="cmap_comparison"}}
+
+See {{figref id="cmap-comparison"}}.
+```
+
+Add an auto-numbered table with Markdown content and refer to it:
+```md
+\begin{table}{id="forcefield-params" caption="Force-field parameters" size="wide"}
+| Parameter | Value |
+| --- | ---: |
+| dt | 0.002 |
+| temperature | 300 |
+\end{table}
+
+See {{tabref id="forcefield-params"}}.
+```
+
+You can still use `{{table ...}}` with `file="_assets/tables/..."` if you want to load a table from a separate HTML snippet.
+
 Add a new entry from a DOI:
 ```bash
 julia --project=. scripts/add_doi.jl 10.1021/acs.jcim.5c01850

@@ -2,6 +2,7 @@ using Dates
 
 const _BIB_CACHE = Ref{Any}(nothing)
 const _FIGURE_CACHE = Dict{String, NamedTuple{(:mtime, :numbers), Tuple{Float64, Dict{String, Int}}}}()
+const _TABLE_CACHE = Dict{String, NamedTuple{(:mtime, :numbers), Tuple{Float64, Dict{String, Int}}}}()
 
 function _string_var(value)
   value isa AbstractString || return nothing
@@ -33,6 +34,11 @@ end
 function _figure_anchor_id(value)
   slug = _figure_slug(value)
   return startswith(slug, "fig-") ? slug : "fig-" * slug
+end
+
+function _table_anchor_id(value)
+  slug = _figure_slug(value)
+  return startswith(slug, "tab-") ? slug : "tab-" * slug
 end
 
 function _figure_size_class(value)
@@ -74,6 +80,14 @@ function _figure_id_from_params(params::AbstractVector{<:AbstractString})
   return isempty(positional) ? "" : positional[1]
 end
 
+function _table_id_from_params(params::AbstractVector{<:AbstractString})
+  positional, options = _parse_named_params(params)
+  if haskey(options, "id")
+    return options["id"]
+  end
+  return isempty(positional) ? "" : positional[1]
+end
+
 function _page_figure_numbers(route)
   route === nothing && return Dict{String, Int}()
   path = _route_source_path(route)
@@ -103,6 +117,80 @@ end
 function _figure_number(route, value)
   numbers = _page_figure_numbers(route)
   return get(numbers, _figure_anchor_id(value), 0)
+end
+
+function _page_table_numbers(route)
+  route === nothing && return Dict{String, Int}()
+  path = _route_source_path(route)
+  path === nothing && return Dict{String, Int}()
+  stamp = mtime(path)
+  cached = get(_TABLE_CACHE, route, nothing)
+  if cached !== nothing && cached.mtime == stamp
+    return cached.numbers
+  end
+
+  text = read(path, String)
+  numbers = Dict{String, Int}()
+  for capture in eachmatch(r"\{\{\s*table\s+((?:.|\n)*?)\s*\}\}"s, text)
+    params = Franklin.split_hfun_parameters(capture.captures[1])
+    isempty(params) && continue
+    table_id = _table_id_from_params(params)
+    isempty(strip(table_id)) && continue
+    anchor = _table_anchor_id(table_id)
+    haskey(numbers, anchor) && continue
+    numbers[anchor] = length(numbers) + 1
+  end
+
+  for capture in eachmatch(r"\\begin\{table\}\{((?:.|\n)*?)\}"s, text)
+    params = Franklin.split_hfun_parameters(capture.captures[1])
+    isempty(params) && continue
+    table_id = _table_id_from_params(params)
+    isempty(strip(table_id)) && continue
+    anchor = _table_anchor_id(table_id)
+    haskey(numbers, anchor) && continue
+    numbers[anchor] = length(numbers) + 1
+  end
+
+  _TABLE_CACHE[route] = (mtime = stamp, numbers = numbers)
+  return numbers
+end
+
+function _table_number(route, value)
+  numbers = _page_table_numbers(route)
+  return get(numbers, _table_anchor_id(value), 0)
+end
+
+function _resolve_project_path(value)
+  raw = strip(String(value))
+  isempty(raw) && return nothing
+  cleaned = startswith(raw, "/") ? raw[2:end] : raw
+  path = normpath(joinpath(@__DIR__, cleaned))
+  startswith(path, normpath(@__DIR__)) || return nothing
+  return isfile(path) ? path : nothing
+end
+
+function _table_html_from_file(value)
+  path = _resolve_project_path(value)
+  path === nothing && return nothing
+  body = strip(read(path, String))
+  isempty(body) && return nothing
+  occursin("<table", lowercase(body)) && return body
+  return "<table>\n" * body * "\n</table>"
+end
+
+function _render_table_html(id, caption, size, table_html)
+  route = _current_route()
+  number = _table_number(route, id)
+  label = number > 0 ? "Table $(number)." : "Table."
+  anchor = _table_anchor_id(id)
+  _, caption_class = _figure_size_class(size)
+
+  return """
+  <figure id="$(_html_escape(anchor))" class="md-table-block">
+    $(table_html)
+    <figcaption class="md-table-caption $(_html_escape(caption_class))">$(_html_escape(label)) $(_html_escape(caption))</figcaption>
+  </figure>
+  """
 end
 
 function _page_title()
@@ -307,6 +395,50 @@ function hfun_figref(params::Vector{String})
   anchor = _figure_anchor_id(id)
   label = number > 0 ? "Figure $(number)" : "Figure ?"
   return "<a href=\"#$(_html_escape(anchor))\">$(_html_escape(label))</a>"
+end
+
+function hfun_table(params::Vector{String})
+  positional, options = _parse_named_params(params)
+
+  id = get(options, "id", length(positional) >= 1 ? positional[1] : "")
+  file = get(options, "file", length(positional) >= 2 ? positional[2] : "")
+  caption = get(options, "caption", length(positional) >= 3 ? positional[3] : "")
+  size = get(options, "size", length(positional) >= 4 ? positional[4] : "medium")
+
+  isempty(strip(id)) && return ""
+  isempty(strip(file)) && return ""
+  isempty(strip(caption)) && return ""
+
+  table_html = _table_html_from_file(file)
+  table_html === nothing && return ""
+  return _render_table_html(id, caption, size, table_html)
+end
+
+function hfun_tabref(params::Vector{String})
+  isempty(params) && return "Table ?"
+  positional, options = _parse_named_params(params)
+  id = get(options, "id", isempty(positional) ? "" : positional[1])
+  isempty(strip(id)) && return "Table ?"
+  route = _current_route()
+  number = _table_number(route, id)
+  anchor = _table_anchor_id(id)
+  label = number > 0 ? "Table $(number)" : "Table ?"
+  return "<a href=\"#$(_html_escape(anchor))\">$(_html_escape(label))</a>"
+end
+
+function env_table(com, _)
+  positional, options = _parse_named_params(Franklin.split_hfun_parameters(Franklin.content(com.braces[1])))
+  id = get(options, "id", length(positional) >= 1 ? positional[1] : "")
+  caption = get(options, "caption", length(positional) >= 2 ? positional[2] : "")
+  size = get(options, "size", length(positional) >= 3 ? positional[3] : "medium")
+
+  isempty(strip(id)) && return ""
+  isempty(strip(caption)) && return ""
+
+  body = strip(Franklin.content(com))
+  isempty(body) && return ""
+  table_html = fd2html(body, internal=true)
+  return "~~~\n" * _render_table_html(id, caption, size, table_html) * "\n~~~"
 end
 
 function _current_route()
