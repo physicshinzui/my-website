@@ -93,7 +93,10 @@ julia --project=. build.jl
 This generates `__site` and copies `CNAME` into the output.
 
 ## 3.1 Manage references with BibTeX / DOI
-The site now uses `references.bib` as the bibliography source.
+The site now reads two bibliography files:
+
+- `references.paperpile.bib`: synced from Paperpile and treated as generated data
+- `references.local.bib`: hand-maintained local additions and overrides
 
 Add a citation in a page:
 ```md
@@ -111,7 +114,11 @@ Add a new entry from a DOI:
 julia --project=. scripts/add_doi.jl 10.1021/acs.jcim.5c01850
 ```
 
-`publications.md` remains hand-written. `references.bib` is only for citations inside notes/pages.
+The DOI helper appends to `references.local.bib`.
+
+If the same BibTeX key appears in both files, the entry in `references.local.bib` takes precedence.
+
+`publications.md` remains hand-written. These BibTeX files are only for citations inside notes/pages.
 
 ## 4. Deploy with GitHub Actions
 Push changes to `main`.

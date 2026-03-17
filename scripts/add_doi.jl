@@ -9,11 +9,11 @@ length(ARGS) == 1 || (usage(); exit(1))
 doi = strip(ARGS[1])
 isempty(doi) && (usage(); exit(1))
 
-bib_path = joinpath(@__DIR__, "..", "references.bib")
+bib_path = joinpath(@__DIR__, "..", "references.local.bib")
 existing = isfile(bib_path) ? read(bib_path, String) : ""
 
 if occursin("doi = {" * doi * "}", existing) || occursin("doi={" * doi * "}", existing)
-  println("DOI already exists in references.bib: " * doi)
+  println("DOI already exists in references.local.bib: " * doi)
   exit(0)
 end
 

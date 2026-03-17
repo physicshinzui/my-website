@@ -327,8 +327,11 @@ function lx_baz(com, _)
   return uppercase(brace_content)
 end
 
-function _bibliography_path()
-  return joinpath(@__DIR__, "references.bib")
+function _bibliography_paths()
+  return (
+    joinpath(@__DIR__, "references.paperpile.bib"),
+    joinpath(@__DIR__, "references.local.bib"),
+  )
 end
 
 function _route_source_path(route)
@@ -498,14 +501,17 @@ function _parse_bibtex_file(path)
 end
 
 function _bib_entries()
-  path = _bibliography_path()
-  stamp = isfile(path) ? mtime(path) : -1.0
+  paths = _bibliography_paths()
+  stamps = Tuple(isfile(path) ? mtime(path) : -1.0 for path in paths)
   cached = _BIB_CACHE[]
-  if cached !== nothing && cached.path == path && cached.stamp == stamp
+  if cached !== nothing && cached.paths == paths && cached.stamps == stamps
     return cached.entries
   end
-  entries = _parse_bibtex_file(path)
-  _BIB_CACHE[] = (path = path, stamp = stamp, entries = entries)
+  entries = Dict{String,NamedTuple}()
+  for path in paths
+    merge!(entries, _parse_bibtex_file(path))
+  end
+  _BIB_CACHE[] = (paths = paths, stamps = stamps, entries = entries)
   return entries
 end
 
