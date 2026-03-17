@@ -1,5 +1,7 @@
 using Dates
 
+const _BIB_CACHE = Ref{Any}(nothing)
+
 function _string_var(value)
   value isa AbstractString || return nothing
   cleaned = strip(String(value))
@@ -199,6 +201,359 @@ function lx_baz(com, _)
   brace_content = Franklin.content(com.braces[1]) # input string
   # do whatever you want here
   return uppercase(brace_content)
+end
+
+function _bibliography_path()
+  return joinpath(@__DIR__, "references.bib")
+end
+
+function _route_source_path(route)
+  route === nothing && return nothing
+  for candidate in (
+    joinpath(@__DIR__, route * ".md"),
+    joinpath(@__DIR__, route, "index.md"),
+  )
+    isfile(candidate) && return candidate
+  end
+  return nothing
+end
+
+function _strip_outer_braces(value)
+  text = strip(String(value))
+  while startswith(text, "{") && endswith(text, "}") && length(text) >= 2
+    depth = 0
+    balanced = true
+    for (idx, ch) in enumerate(text)
+      if ch == '{'
+        depth += 1
+      elseif ch == '}'
+        depth -= 1
+        if depth == 0 && idx != lastindex(text)
+          balanced = false
+          break
+        elseif depth < 0
+          balanced = false
+          break
+        end
+      end
+    end
+    balanced || break
+    text = strip(text[2:end-1])
+  end
+  return text
+end
+
+function _strip_bibtex_tex(value)
+  text = _strip_outer_braces(value)
+  text = replace(text, r"\\&" => "&")
+  text = replace(text, r"\\_" => "_")
+  text = replace(text, r"\\%" => "%")
+  text = replace(text, r"\\textit\{([^}]*)\}" => s"\1")
+  text = replace(text, r"\\textbf\{([^}]*)\}" => s"\1")
+  text = replace(text, r"[{}]" => "")
+  text = replace(text, r"\s+" => " ")
+  return strip(text)
+end
+
+function _read_bib_value(text, start_idx)
+  idx = start_idx
+  while idx <= lastindex(text) && isspace(text[idx])
+    idx = nextind(text, idx)
+  end
+  idx > lastindex(text) && return "", idx
+
+  ch = text[idx]
+  if ch == '{'
+    depth = 1
+    value_start = nextind(text, idx)
+    idx = value_start
+    while idx <= lastindex(text)
+      current = text[idx]
+      if current == '{'
+        depth += 1
+      elseif current == '}'
+        depth -= 1
+        if depth == 0
+          return text[value_start:prevind(text, idx)], nextind(text, idx)
+        end
+      end
+      idx = nextind(text, idx)
+    end
+    return text[value_start:end], lastindex(text) + 1
+  elseif ch == '"'
+    value_start = nextind(text, idx)
+    idx = value_start
+    escaped = false
+    while idx <= lastindex(text)
+      current = text[idx]
+      if current == '"' && !escaped
+        return text[value_start:prevind(text, idx)], nextind(text, idx)
+      end
+      escaped = current == '\\' && !escaped
+      current == '\\' || (escaped = false)
+      idx = nextind(text, idx)
+    end
+    return text[value_start:end], lastindex(text) + 1
+  else
+    value_start = idx
+    while idx <= lastindex(text) && !(text[idx] in (',', '\n', '\r'))
+      idx = nextind(text, idx)
+    end
+    return strip(text[value_start:prevind(text, idx)]), idx
+  end
+end
+
+function _parse_bibtex_entry(body)
+  start_match = match(r"^@([A-Za-z]+)\s*[{(]\s*([^,]+)\s*,([\s\S]*)[})]\s*$", strip(body))
+  start_match === nothing && return nothing
+
+  entry_type = lowercase(strip(start_match.captures[1]))
+  entry_key = strip(start_match.captures[2])
+  fields_text = start_match.captures[3]
+
+  fields = Dict{String,String}()
+  idx = firstindex(fields_text)
+  while idx <= lastindex(fields_text)
+    while idx <= lastindex(fields_text) && (isspace(fields_text[idx]) || fields_text[idx] == ',')
+      idx = nextind(fields_text, idx)
+    end
+    idx > lastindex(fields_text) && break
+
+    eq_pos = findnext(==('='), fields_text, idx)
+    eq_pos === nothing && break
+    name = lowercase(strip(fields_text[idx:prevind(fields_text, eq_pos)]))
+    value, next_idx = _read_bib_value(fields_text, nextind(fields_text, eq_pos))
+    fields[name] = _strip_bibtex_tex(value)
+    idx = next_idx
+  end
+
+  return (
+    key = entry_key,
+    entry_type = entry_type,
+    fields = fields,
+  )
+end
+
+function _parse_bibtex_file(path)
+  isfile(path) || return Dict{String,NamedTuple}()
+  text = read(path, String)
+  entries = Dict{String,NamedTuple}()
+  idx = firstindex(text)
+
+  while true
+    start_pos = findnext(==('@'), text, idx)
+    start_pos === nothing && break
+    open_pos = findnext(ch -> ch == '{' || ch == '(', text, start_pos)
+    open_pos === nothing && break
+    open_ch = text[open_pos]
+    close_ch = open_ch == '{' ? '}' : ')'
+    depth = 1
+    pos = nextind(text, open_pos)
+    while pos <= lastindex(text)
+      current = text[pos]
+      if current == open_ch
+        depth += 1
+      elseif current == close_ch
+        depth -= 1
+        if depth == 0
+          entry_text = text[start_pos:pos]
+          parsed = _parse_bibtex_entry(entry_text)
+          if parsed !== nothing
+            entries[parsed.key] = parsed
+          end
+          idx = nextind(text, pos)
+          break
+        end
+      end
+      pos = nextind(text, pos)
+    end
+    pos > lastindex(text) && break
+  end
+
+  return entries
+end
+
+function _bib_entries()
+  path = _bibliography_path()
+  stamp = isfile(path) ? mtime(path) : -1.0
+  cached = _BIB_CACHE[]
+  if cached !== nothing && cached.path == path && cached.stamp == stamp
+    return cached.entries
+  end
+  entries = _parse_bibtex_file(path)
+  _BIB_CACHE[] = (path = path, stamp = stamp, entries = entries)
+  return entries
+end
+
+function _split_citation_keys(value)
+  parts = split(String(value), ',')
+  return [strip(part) for part in parts if !isempty(strip(part))]
+end
+
+function _page_citation_order(route)
+  source = _route_source_path(route)
+  source === nothing && return String[]
+  text = read(source, String)
+  ordered = String[]
+  seen = Set{String}()
+  for match in eachmatch(r"\\cite\{([^}]*)\}", text)
+    for key in _split_citation_keys(match.captures[1])
+      key in seen && continue
+      push!(ordered, key)
+      push!(seen, key)
+    end
+  end
+  for match in eachmatch(r"\{\{cite\s+([^}]*)\}\}", text)
+    for key in split(strip(match.captures[1]))
+      cleaned = strip(key, [',', ' '])
+      isempty(cleaned) && continue
+      cleaned in seen && continue
+      push!(ordered, cleaned)
+      push!(seen, cleaned)
+    end
+  end
+  return ordered
+end
+
+function _citation_number_map(route)
+  ordered = _page_citation_order(route)
+  return Dict(key => idx for (idx, key) in enumerate(ordered))
+end
+
+function _authors_text(entry)
+  authors = get(entry.fields, "author", "")
+  isempty(authors) && return ""
+  names = [_normalize_ws(part) for part in split(authors, " and ") if !isempty(strip(part))]
+  return join(names, ", ")
+end
+
+function _journal_text(entry)
+  for field in ("journal", "booktitle", "publisher")
+    value = get(entry.fields, field, "")
+    isempty(value) || return value
+  end
+  return ""
+end
+
+function _entry_year(entry)
+  year = tryparse(Int, get(entry.fields, "year", ""))
+  return something(year, 0)
+end
+
+function _entry_title(entry)
+  return get(entry.fields, "title", entry.key)
+end
+
+function _entry_href(entry)
+  doi = get(entry.fields, "doi", "")
+  isempty(doi) || return "https://doi.org/" * doi
+  return get(entry.fields, "url", "")
+end
+
+function _render_reference_html(entry; index = nothing, anchor_prefix = "ref")
+  parts = String[]
+
+  authors = _authors_text(entry)
+  isempty(authors) || push!(parts, _html_escape(authors) * ".")
+
+  title = _entry_title(entry)
+  href = _entry_href(entry)
+  if isempty(href)
+    push!(parts, "\"" * _html_escape(title) * ".\"")
+  else
+    push!(parts, "<a href=\"" * _html_escape(href) * "\">\"" * _html_escape(title) * ".\"</a>")
+  end
+
+  journal = _journal_text(entry)
+  isempty(journal) || push!(parts, "<em>" * _html_escape(journal) * "</em>")
+
+  year = get(entry.fields, "year", "")
+  volume = get(entry.fields, "volume", "")
+  number = get(entry.fields, "number", "")
+  pages = get(entry.fields, "pages", "")
+  detail_parts = String[]
+  isempty(year) || push!(detail_parts, _html_escape(year))
+  isempty(volume) || push!(detail_parts, "<strong>" * _html_escape(volume) * "</strong>")
+  isempty(number) || push!(detail_parts, "(" * _html_escape(number) * ")")
+  isempty(pages) || push!(detail_parts, _html_escape(pages))
+  isempty(detail_parts) || push!(parts, join(detail_parts, ", "))
+
+  doi = get(entry.fields, "doi", "")
+  isempty(doi) || push!(parts, "DOI: <a href=\"" * _html_escape("https://doi.org/" * doi) * "\">" * _html_escape(doi) * "</a>")
+
+  body = join(parts, " ")
+  if index === nothing
+    return "<li id=\"" * anchor_prefix * "-" * _html_escape(entry.key) * "\">" * body * "</li>"
+  end
+  return "<li id=\"" * anchor_prefix * "-" * _html_escape(entry.key) * "\">" * body * "</li>"
+end
+
+function _render_citation_html(keys)
+  keys = [String(strip(key)) for key in keys if !isempty(strip(String(key)))]
+  isempty(keys) && return "[?]"
+
+  route = _current_route()
+  number_map = _citation_number_map(route)
+  entries = _bib_entries()
+  ordered = _page_citation_order(route)
+
+  for key in keys
+    if !haskey(number_map, key)
+      push!(ordered, key)
+      number_map[key] = length(ordered)
+    end
+  end
+
+  rendered = String[]
+  for key in keys
+    number = get(number_map, key, 0)
+    label = number > 0 ? string(number) : "?"
+    title = haskey(entries, key) ? _entry_title(entries[key]) : "Missing reference: " * key
+    push!(rendered, "<a href=\"#ref-" * _html_escape(key) * "\" title=\"" * _html_escape(title) * "\">" * label * "</a>")
+  end
+
+  return "<span class=\"bibref\">[" * join(rendered, ", ") * "]</span>"
+end
+
+function lx_cite(com, _)
+  isempty(com.braces) && return "[?]"
+  keys = _split_citation_keys(Franklin.content(com.braces[1]))
+  return _render_citation_html(keys)
+end
+
+function lx_rcite(com, _)
+  isempty(com.braces) && return "[?]"
+  keys = _split_citation_keys(Franklin.content(com.braces[1]))
+  return _render_citation_html(keys)
+end
+
+function hfun_cite(params::Vector{String})
+  isempty(params) && return "[?]"
+  keys = [strip(param) for param in params if !isempty(strip(param))]
+  return _render_citation_html(keys)
+end
+
+function hfun_references()
+  route = _current_route()
+  ordered_keys = _page_citation_order(route)
+  entries = _bib_entries()
+  items = String[]
+
+  for key in ordered_keys
+    haskey(entries, key) || continue
+    push!(items, _render_reference_html(entries[key]))
+  end
+
+  isempty(items) && return ""
+  return "<ol class=\"references-list\">\n" * join(items, "\n") * "\n</ol>"
+end
+
+function hfun_publications_bibliography()
+  entries = collect(values(_bib_entries()))
+  sort!(entries; by = entry -> (-_entry_year(entry), lowercase(_authors_text(entry)), lowercase(_entry_title(entry))))
+  items = [_render_reference_html(entry) for entry in entries]
+  isempty(items) && return ""
+  return "<ol class=\"references-list\">\n" * join(items, "\n") * "\n</ol>"
 end
 
 function _note_paths()

@@ -92,6 +92,27 @@ julia --project=. build.jl
 
 This generates `__site` and copies `CNAME` into the output.
 
+## 3.1 Manage references with BibTeX / DOI
+The site now uses `references.bib` as the bibliography source.
+
+Add a citation in a page:
+```md
+This follows the previous result {{cite iida2023dissociation}}.
+```
+
+Print the references cited on that page:
+```md
+## References
+{{references}}
+```
+
+Add a new entry from a DOI:
+```bash
+julia --project=. scripts/add_doi.jl 10.1021/acs.jcim.5c01850
+```
+
+`publications.md` remains hand-written. `references.bib` is only for citations inside notes/pages.
+
 ## 4. Deploy with GitHub Actions
 Push changes to `main`.
 
