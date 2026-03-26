@@ -1,5 +1,6 @@
 include("note_tools.jl")
 
+using Dates
 using Downloads
 using Sockets
 
@@ -12,9 +13,11 @@ function usage()
 Usage:
   julia --project=. scripts/note.jl "Title" [--subdir DIR] [--draft] [--editor NAME]
   julia --project=. scripts/note.jl --publish DRAFT_PATH_OR_NAME [--subdir DIR]
+  julia --project=. scripts/note.jl --list [--draft]
   julia --project=. scripts/note.jl --help
 
 Options:
+  --list           List existing notes (use --draft to list drafts/)
   --draft          Create a draft in drafts/ instead of notebooks/
   --publish REF    Publish draft REF from drafts/ into notebooks/
   --subdir DIR     Optional subdirectory under drafts/ or notebooks/
@@ -35,6 +38,7 @@ function parse_args(args)
   publish_ref = nothing
   subdir = ""
   draft_mode = false
+  list_mode = false
   editor_name = "auto"
   open_browser = true
   open_editor = true
@@ -45,6 +49,9 @@ function parse_args(args)
     arg = args[i]
     if arg == "--draft"
       draft_mode = true
+      i += 1
+    elseif arg == "--list"
+      list_mode = true
       i += 1
     elseif arg == "--publish"
       i + 1 <= length(args) || error("Missing value for --publish")
@@ -77,7 +84,10 @@ function parse_args(args)
     end
   end
 
-  if !isnothing(publish_ref)
+  if list_mode
+    !isnothing(publish_ref) && error("--list cannot be used with --publish")
+    isnothing(title) || error("Do not pass a title with --list")
+  elseif !isnothing(publish_ref)
     isempty(strip(String(publish_ref))) && error("--publish requires a non-empty value")
     isnothing(title) || error("Do not pass a title with --publish")
   else
@@ -89,6 +99,7 @@ function parse_args(args)
     help = false,
     title = title,
     publish_ref = publish_ref,
+    list_mode = list_mode,
     subdir = subdir,
     draft_mode = draft_mode,
     editor_name = editor_name,
@@ -251,6 +262,100 @@ function tail_lines(path::AbstractString, n::Int = 30)
   return lines[start_idx:end]
 end
 
+function _frontmatter_value(lines::Vector{String}, key::AbstractString)
+  for line in lines
+    m = match(Regex("^\\s*" * key * "\\s*=\\s*\"(.*)\"\\s*\\z"), line)
+    m !== nothing && return strip(m.captures[1])
+  end
+  return nothing
+end
+
+function _frontmatter_date(lines::Vector{String})
+  for line in lines
+    md = match(r"^\s*date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)\s*$", line)
+    if md !== nothing
+      y = md.captures[1]
+      m = lpad(md.captures[2], 2, '0')
+      d = lpad(md.captures[3], 2, '0')
+      return string(y, "-", m, "-", d)
+    end
+    ms = match(r"^\s*date\s*=\s*\"(\d{4}-\d{1,2}-\d{1,2})\"\s*$", line)
+    ms !== nothing && return ms.captures[1]
+  end
+  return ""
+end
+
+function _note_meta(path)
+  lines = readlines(path)
+  title = basename(path)
+  date = ""
+  if length(lines) >= 3 && strip(lines[1]) == "+++"
+    closing = nothing
+    for i in 2:length(lines)
+      if strip(lines[i]) == "+++"
+        closing = i
+        break
+      end
+    end
+    if closing !== nothing
+      fm = lines[2:closing-1]
+      fm_title = _frontmatter_value(fm, "title")
+      fm_title !== nothing && !isempty(fm_title) && (title = fm_title)
+      date = _frontmatter_date(fm)
+    end
+  end
+  if title == basename(path)
+    for line in lines
+      startswith(line, "# ") || continue
+      title = strip(line[3:end])
+      break
+    end
+  end
+  return (title = title, date = date)
+end
+
+function _parse_date_or_min(value::AbstractString)
+  isempty(value) && return Date(1)
+  try
+    return Date(value)
+  catch
+    return Date(1)
+  end
+end
+
+function list_notes(base_dir, project_root)
+  paths = String[]
+  for (dir, _, files) in walkdir(base_dir)
+    for file in files
+      endswith(file, ".md") || continue
+      push!(paths, joinpath(dir, file))
+    end
+  end
+  if isempty(paths)
+    println("No notes found in: " * rel_or_abs(base_dir, project_root))
+    return
+  end
+
+  entries = NamedTuple[]
+  for path in paths
+    meta = _note_meta(path)
+    push!(entries, (
+      path = path,
+      title = meta.title,
+      date_str = meta.date,
+      date = _parse_date_or_min(meta.date),
+    ))
+  end
+  sort!(entries; by = e -> (-Dates.value(e.date), lowercase(e.title), lowercase(e.path)))
+
+  println("Found " * string(length(paths)) * " notes in " * rel_or_abs(base_dir, project_root) * ":")
+  for (idx, entry) in enumerate(entries)
+    rel = rel_or_abs(entry.path, project_root)
+    d = isempty(entry.date_str) ? "----/--/--" : entry.date_str
+    println(lpad(string(idx), 3, ' ') * ". [" * d * "] " * entry.title * "  (" * rel * ")")
+  end
+end
+
 function main()
   opts = parse_args(ARGS)
   get(opts, :help, false) && return usage()
@@ -258,6 +363,12 @@ function main()
   project_root = normpath(joinpath(@__DIR__, ".."))
   drafts_dir = joinpath(project_root, "drafts")
   notebooks_dir = joinpath(project_root, "notebooks")
+
+  if opts.list_mode
+    base_dir = opts.draft_mode ? drafts_dir : notebooks_dir
+    list_notes(base_dir, project_root)
+    return "listed"
+  end
 
   created_or_published_path = ""
   action = ""
