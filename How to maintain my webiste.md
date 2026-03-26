@@ -63,29 +63,49 @@ julia> serve() # Or serve(port=8000)
 - The website launched is interactively updated while you modify content. So, this is a good way to check what you wrote.
 
 ## 2.1 Add or publish notes from the command line
-Create a new public note:
+Quick start (recommended): create/open a note, launch editor, and preview.
 ```bash
-julia --project=. scripts/new_note.jl "My note title"
+julia --project=. scripts/note.jl "My note title"
 ```
+
+This command will:
+- create a note in `notebooks/` (or open it if it already exists),
+- open your editor (uses `NOTE_EDITOR`, then `EDITOR`, then fallback),
+- start `dev.jl` if needed,
+- open browser preview.
 
 Create a draft:
 ```bash
-julia --project=. scripts/new_draft.jl "My draft title"
+julia --project=. scripts/note.jl "My draft title" --draft
 ```
 
 You can optionally pass a subdirectory:
 ```bash
-julia --project=. scripts/new_note.jl "PyMOL tips" resources
+julia --project=. scripts/note.jl "PyMOL tips" --subdir resources
 ```
 
 Publish a draft into `notebooks/`:
 ```bash
-julia --project=. scripts/publish_note.jl my-draft-title
+julia --project=. scripts/note.jl --publish my-draft-title
 ```
 
 Or publish it into a subdirectory:
 ```bash
-julia --project=. scripts/publish_note.jl my-draft-title resources
+julia --project=. scripts/note.jl --publish my-draft-title --subdir resources
+```
+
+Optional flags:
+```bash
+julia --project=. scripts/note.jl "My note title" --editor cursor
+julia --project=. scripts/note.jl "My note title" --no-open
+julia --project=. scripts/note.jl "My note title" --no-editor
+```
+
+Legacy commands are still available:
+```bash
+julia --project=. scripts/new_note.jl "My note title"
+julia --project=. scripts/new_draft.jl "My draft title"
+julia --project=. scripts/publish_note.jl my-draft-title
 ```
 
 ## 3. Build locally when you want to verify the production output
