@@ -24,6 +24,7 @@ function note_template(title; date = today())
 title = "$(title)"
 tags = []
 summary = ""
+pinned = false
 date = $(frontmatter_date(date))
 +++
 
