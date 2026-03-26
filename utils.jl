@@ -981,6 +981,13 @@ function hfun_note_comments()
   """
 end
 
+function hfun_note_footer_message()
+  route = _current_route()
+  route === nothing && return ""
+  startswith(route, "notebooks/") || return ""
+  return "Questions or corrections? Leave a comment below."
+end
+
 function _slugify(value)
   slug = lowercase(strip(String(value)))
   slug = replace(slug, r"[^a-z0-9]+" => "-")
