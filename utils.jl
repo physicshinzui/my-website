@@ -869,7 +869,48 @@ function _note_tags(route)
   return String[]
 end
 
+function _note_date_from_frontmatter(path)
+  lines = readlines(path)
+  if length(lines) < 3 || strip(lines[1]) != "+++"
+    return nothing
+  end
+
+  closing = nothing
+  for i in 2:length(lines)
+    if strip(lines[i]) == "+++"
+      closing = i
+      break
+    end
+  end
+  closing === nothing && return nothing
+
+  for line in lines[2:closing-1]
+    stripped = strip(line)
+
+    md = match(r"^date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)\s*$", stripped)
+    if md !== nothing
+      y = parse(Int, md.captures[1])
+      m = parse(Int, md.captures[2])
+      d = parse(Int, md.captures[3])
+      return Date(y, m, d)
+    end
+
+    ms = match(r"^date\s*=\s*\"(\d{4}-\d{1,2}-\d{1,2})\"\s*$", stripped)
+    if ms !== nothing
+      try
+        return Date(ms.captures[1])
+      catch
+      end
+    end
+  end
+
+  return nothing
+end
+
 function _note_date(route, path)
+  parsed = _note_date_from_frontmatter(path)
+  parsed !== nothing && return parsed
+
   date = pagevar(route, "date")
   if date isa Date
     return year(date) == 1 ? Date(unix2datetime(mtime(path))) : date
