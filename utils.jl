@@ -836,8 +836,16 @@ function _note_route(path)
   return replace(rel, r"\.md$" => "")
 end
 
+function _safe_pagevar(route, name)
+  try
+    return pagevar(route, name)
+  catch
+    return nothing
+  end
+end
+
 function _note_title(path, route)
-  title = pagevar(route, "title")
+  title = _safe_pagevar(route, "title")
   if title isa AbstractString && !isempty(strip(title))
     return strip(title)
   end
@@ -850,7 +858,7 @@ function _note_title(path, route)
 end
 
 function _note_summary(route)
-  summary = pagevar(route, "summary")
+  summary = _safe_pagevar(route, "summary")
   if summary isa AbstractString
     summary = strip(summary)
     isempty(summary) || return summary
@@ -859,7 +867,7 @@ function _note_summary(route)
 end
 
 function _note_tags(route)
-  tags = pagevar(route, "tags")
+  tags = _safe_pagevar(route, "tags")
   if tags isa AbstractVector
     return [string(tag) for tag in tags if !isempty(strip(string(tag)))]
   elseif tags isa AbstractString
@@ -911,7 +919,7 @@ function _note_date(route, path)
   parsed = _note_date_from_frontmatter(path)
   parsed !== nothing && return parsed
 
-  date = pagevar(route, "date")
+  date = _safe_pagevar(route, "date")
   if date isa Date
     return year(date) == 1 ? Date(unix2datetime(mtime(path))) : date
   elseif date isa DateTime

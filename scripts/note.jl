@@ -1,7 +1,6 @@
 include("note_tools.jl")
 
 using Dates
-using Downloads
 using Sockets
 
 const DEFAULT_PORT = 8000
@@ -195,8 +194,12 @@ end
 
 function ensure_dev_server(project_root, port::Int)
   log_path = joinpath(project_root, "devserver.log")
-  if can_connect("127.0.0.1", port)
-    return (started = false, running = true, log_path = log_path)
+  # Always restart the dev server when invoking `note` so a previously
+  # broken watcher/process state cannot be reused.
+  try
+    run(`pkill -f "julia --project=. dev.jl"`)
+    sleep(0.5)
+  catch
   end
 
   try
@@ -228,31 +231,6 @@ function note_url_for(path, project_root, port)
   rel = replace(relpath(path, project_root), "\\" => "/")
   stem = replace(rel, r"\.md$" => "")
   return "http://localhost:$(port)/" * stem * "/"
-end
-
-function url_available(url::AbstractString)
-  tmp, io = mktemp()
-  close(io)
-  try
-    Downloads.download(url, tmp)
-    return true
-  catch
-    return false
-  finally
-    rm(tmp; force = true)
-  end
-end
-
-function resolve_preview_url(candidate_url::AbstractString, fallback_url::AbstractString)
-  for _ in 1:20
-    url_available(candidate_url) && return candidate_url
-    sleep(0.25)
-  end
-  for _ in 1:20
-    url_available(fallback_url) && return fallback_url
-    sleep(0.25)
-  end
-  return fallback_url
 end
 
 function tail_lines(path::AbstractString, n::Int = 30)
@@ -405,7 +383,7 @@ function main()
   end
 
   notes_url = "http://localhost:$(opts.port)$(DEFAULT_PREVIEW_PATH)"
-  preview_candidate =
+  preview_url =
     startswith(relpath(created_or_published_path, project_root), "notebooks") ?
     note_url_for(created_or_published_path, project_root, opts.port) :
     notes_url
@@ -420,7 +398,8 @@ function main()
     return action
   end
 
-  preview_url = resolve_preview_url(preview_candidate, notes_url)
+  # For existing/public notes, always open the target note URL directly.
+  # Falling back to /notes/ can hide routing/build issues as "home".
   println(server.started ? "Dev server: started" : "Dev server: already running")
   println("Preview: " * preview_url)
 

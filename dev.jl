@@ -42,5 +42,20 @@ function _start_note_tag_sync(; interval_sec = 0.8)
   end
 end
 
+function _serve_with_restart(; restart_delay_sec = 1.0)
+  while true
+    try
+      serve(launch = false, clear = true)
+      return
+    catch err
+      if err isa InterruptException
+        rethrow()
+      end
+      @error "Franklin dev server crashed; restarting..." exception = (err, catch_backtrace())
+      sleep(restart_delay_sec)
+    end
+  end
+end
+
 _start_note_tag_sync()
-serve()
+_serve_with_restart()
