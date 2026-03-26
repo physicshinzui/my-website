@@ -183,22 +183,26 @@ function open_in_editor(path, editor_name)
 end
 
 function ensure_dev_server(project_root, port::Int)
+  log_path = joinpath(project_root, "devserver.log")
   if can_connect("127.0.0.1", port)
-    return false
+    return (started = false, running = true, log_path = log_path)
   end
 
-  log_path = joinpath(project_root, "devserver.log")
-  log_io = open(log_path, "a")
-  cmd = Cmd(`julia --project=. dev.jl`; dir = project_root)
-  run(pipeline(cmd; stdout = log_io, stderr = log_io); wait = false)
-  close(log_io)
+  try
+    log_io = open(log_path, "a")
+    cmd = Cmd(`julia --project=. dev.jl`; dir = project_root)
+    run(pipeline(cmd; stdout = log_io, stderr = log_io); wait = false)
+    close(log_io)
+  catch
+    return (started = true, running = false, log_path = log_path)
+  end
 
   # Wait briefly for the server to become reachable.
   for _ in 1:40
     sleep(0.25)
-    can_connect("127.0.0.1", port) && return true
+    can_connect("127.0.0.1", port) && return (started = true, running = true, log_path = log_path)
   end
-  return true
+  return (started = true, running = false, log_path = log_path)
 end
 
 function rel_or_abs(path, project_root)
@@ -238,6 +242,13 @@ function resolve_preview_url(candidate_url::AbstractString, fallback_url::Abstra
     sleep(0.25)
   end
   return fallback_url
+end
+
+function tail_lines(path::AbstractString, n::Int = 30)
+  isfile(path) || return String[]
+  lines = readlines(path)
+  start_idx = max(1, length(lines) - n + 1)
+  return lines[start_idx:end]
 end
 
 function main()
@@ -288,9 +299,18 @@ function main()
     note_url_for(created_or_published_path, project_root, opts.port) :
     notes_url
 
-  started = ensure_dev_server(project_root, opts.port)
+  server = ensure_dev_server(project_root, opts.port)
+  if !server.running
+    println(server.started ? "Dev server: failed to start" : "Dev server: not running")
+    println("See log: " * rel_or_abs(server.log_path, project_root))
+    for line in tail_lines(server.log_path, 25)
+      println("  " * line)
+    end
+    return action
+  end
+
   preview_url = resolve_preview_url(preview_candidate, notes_url)
-  println(started ? "Dev server: started" : "Dev server: already running")
+  println(server.started ? "Dev server: started" : "Dev server: already running")
   println("Preview: " * preview_url)
 
   if opts.open_browser

@@ -35,7 +35,45 @@ function read_frontmatter(path)
         end
       end
       content = join(frontmatter_lines, "\n")
-      return TOML.parse(content)
+      try
+        return TOML.parse(content)
+      catch
+        # Fallback parser for slightly non-TOML frontmatter such as:
+        # tags = [graph neural network, positional encoding]
+        parsed = Dict{String, Any}()
+        for raw in frontmatter_lines
+          line = strip(raw)
+          isempty(line) && continue
+          startswith(line, "#") && continue
+
+          if startswith(line, "date")
+            m_date = match(r"^date\s*=\s*\"([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\"$", line)
+            if m_date !== nothing
+              parsed["date"] = m_date.captures[1]
+              continue
+            end
+          end
+
+          if startswith(line, "tags")
+            m_tags = match(r"^tags\s*=\s*\[(.*)\]$", line)
+            if m_tags !== nothing
+              inner = strip(m_tags.captures[1])
+              if isempty(inner)
+                parsed["tags"] = String[]
+              else
+                parts = [strip(part) for part in split(inner, ",")]
+                clean = String[]
+                for part in parts
+                  token = strip(part, ['"', '\''])
+                  isempty(token) || push!(clean, token)
+                end
+                parsed["tags"] = clean
+              end
+            end
+          end
+        end
+        return parsed
+      end
     end
   end
   return Dict{String, Any}()
@@ -147,8 +185,13 @@ function write_archive_pages(months, outdir)
   end
 end
 
-root = @__DIR__
-project_root = normpath(joinpath(root, ".."))
-tags, months = collect_tags(joinpath(project_root, "notebooks"))
-write_tag_pages(tags, joinpath(project_root, "notes", "tags"))
-write_archive_pages(months, joinpath(project_root, "notes", "archive"))
+function generate_note_tag_pages(project_root = normpath(joinpath(@__DIR__, "..")))
+  tags, months = collect_tags(joinpath(project_root, "notebooks"))
+  write_tag_pages(tags, joinpath(project_root, "notes", "tags"))
+  write_archive_pages(months, joinpath(project_root, "notes", "archive"))
+  return (tags = tags, months = months)
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+  generate_note_tag_pages()
+end
