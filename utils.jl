@@ -866,6 +866,60 @@ function _note_summary(route)
   return nothing
 end
 
+function _frontmatter_lines(path)
+  lines = readlines(path)
+  length(lines) >= 3 || return nothing
+  strip(lines[1]) == "+++" || return nothing
+  closing = nothing
+  for i in 2:length(lines)
+    if strip(lines[i]) == "+++"
+      closing = i
+      break
+    end
+  end
+  closing === nothing && return nothing
+  return lines[2:closing-1]
+end
+
+function _frontmatter_raw_value(path, key)
+  lines = _frontmatter_lines(path)
+  lines === nothing && return nothing
+  pattern = Regex("^" * key * "\\s*=\\s*(.+?)\\s*\$")
+  for line in lines
+    m = match(pattern, strip(line))
+    m === nothing && continue
+    return strip(m.captures[1])
+  end
+  return nothing
+end
+
+function _parse_boolish(value)
+  value isa Bool && return value
+  value isa Integer && return value != 0
+  if value isa AbstractString
+    normalized = lowercase(strip(value))
+    normalized = replace(normalized, "\"" => "")
+    normalized = replace(normalized, "'" => "")
+    normalized in ("true", "1", "yes", "y", "on") && return true
+    normalized in ("false", "0", "no", "n", "off") && return false
+  end
+  return false
+end
+
+function _parse_intish(value)
+  value isa Integer && return Int(value)
+  if value isa AbstractString
+    cleaned = strip(value)
+    cleaned = replace(cleaned, "\"" => "")
+    cleaned = replace(cleaned, "'" => "")
+    try
+      return parse(Int, cleaned)
+    catch
+    end
+  end
+  return nothing
+end
+
 function _note_tags(route)
   tags = _safe_pagevar(route, "tags")
   if tags isa AbstractVector
@@ -877,22 +931,39 @@ function _note_tags(route)
   return String[]
 end
 
+function _note_is_pinned(route, path)
+  pinned = _safe_pagevar(route, "pinned")
+  pinned !== nothing && return _parse_boolish(pinned)
+
+  featured = _safe_pagevar(route, "featured")
+  featured !== nothing && return _parse_boolish(featured)
+
+  pinned_raw = _frontmatter_raw_value(path, "pinned")
+  pinned_raw !== nothing && return _parse_boolish(pinned_raw)
+
+  featured_raw = _frontmatter_raw_value(path, "featured")
+  featured_raw !== nothing && return _parse_boolish(featured_raw)
+
+  return false
+end
+
+function _note_pin_rank(route, path)
+  pin_rank = _safe_pagevar(route, "pin_rank")
+  parsed = _parse_intish(pin_rank)
+  parsed !== nothing && return parsed
+
+  rank_raw = _frontmatter_raw_value(path, "pin_rank")
+  parsed = _parse_intish(rank_raw)
+  parsed !== nothing && return parsed
+
+  return typemax(Int)
+end
+
 function _note_date_from_frontmatter(path)
-  lines = readlines(path)
-  if length(lines) < 3 || strip(lines[1]) != "+++"
-    return nothing
-  end
+  lines = _frontmatter_lines(path)
+  lines === nothing && return nothing
 
-  closing = nothing
-  for i in 2:length(lines)
-    if strip(lines[i]) == "+++"
-      closing = i
-      break
-    end
-  end
-  closing === nothing && return nothing
-
-  for line in lines[2:closing-1]
+  for line in lines
     stripped = strip(line)
 
     md = match(r"^date\s*=\s*Date\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})\s*\)\s*$", stripped)
@@ -945,6 +1016,8 @@ function _collect_notes()
       summary = _note_summary(route),
       tags = _note_tags(route),
       date = _note_date(route, path),
+      pinned = _note_is_pinned(route, path),
+      pin_rank = _note_pin_rank(route, path),
     ))
   end
   return sort(notes; by = note -> (-Dates.value(note.date), lowercase(note.title)))
@@ -1075,10 +1148,40 @@ function _tagged_notes(tag)
   return [note for note in notes if tag in note.tags]
 end
 
+function _collect_pinned_notes(notes)
+  pinned = [note for note in notes if note.pinned]
+  return sort(
+    pinned;
+    by = note -> (note.pin_rank, -Dates.value(note.date), lowercase(note.title)),
+  )
+end
+
+function hfun_notes_pinned()
+  notes = _collect_notes()
+  pinned = _collect_pinned_notes(notes)
+  isempty(pinned) && return ""
+  items = [_render_note_item(note; show_tags = false, show_date = true) for note in Iterators.take(pinned, 3)]
+  return "<div class=\"notes-stack notes-recent-list notes-pinned-list\">" * join(items, "\n") * "</div>"
+end
+
+function hfun_notes_pinned_panel()
+  body = hfun_notes_pinned()
+  isempty(body) && return ""
+  return """
+  <section class="page-panel">
+    <h2>Pinned Notes</h2>
+    $(body)
+  </section>
+  """
+end
+
 function hfun_notes_recent()
   notes = _collect_notes()
   isempty(notes) && return "<p>No notes yet.</p>"
-  items = [_render_note_item(note; show_tags = false, show_date = true) for note in Iterators.take(notes, 3)]
+  pinned_routes = Set(note.route for note in Iterators.take(_collect_pinned_notes(notes), 3))
+  recent = [note for note in notes if !(note.route in pinned_routes)]
+  isempty(recent) && return "<p>No recent notes yet.</p>"
+  items = [_render_note_item(note; show_tags = false, show_date = true) for note in Iterators.take(recent, 3)]
   return "<div class=\"notes-stack notes-recent-list\">" * join(items, "\n") * "</div>"
 end
 

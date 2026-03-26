@@ -7,6 +7,8 @@
 Technical notes, research memos, and small how-tos collected from ongoing work and reusable workflows.
 @@
 
+{{notes_pinned_panel}}
+
 @@page-panel
 ## Recent Notes
 {{notes_recent}}

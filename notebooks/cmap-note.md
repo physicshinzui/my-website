@@ -1,6 +1,7 @@
 +++
 title = "Correction MAP (CMAP)"
 tags = ["force field"]
+pinned = true
 summary = ""
 date = Date(2026, 3, 17)
 +++
