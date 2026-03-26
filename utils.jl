@@ -965,6 +965,22 @@ function hfun_note_page_date_meta()
   """
 end
 
+function hfun_note_comments()
+  route = _current_route()
+  route === nothing && return ""
+  startswith(route, "notebooks/") || return ""
+  return """
+  <script src="https://utteranc.es/client.js"
+          repo="physicshinzui/my-website"
+          issue-term="pathname"
+          label="✨💬✨"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+  """
+end
+
 function _slugify(value)
   slug = lowercase(strip(String(value)))
   slug = replace(slug, r"[^a-z0-9]+" => "-")
