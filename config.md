@@ -19,6 +19,13 @@ website_url   = "https://s-iida.com"
 website_image = "/assets/IMG_3089.jpg"
 twitter_handle = "@_siida_"
 ga_measurement_id = "G-K27NB3FXGB"
+giscus_repo = "physicshinzui/my-website"
+giscus_repo_id = "R_kgDOG-cplw"
+giscus_category = "General"
+giscus_category_id = "DIC_kwDOG-cpl84C5V4o"
+giscus_mapping = "pathname"
+giscus_theme = "catppuccin_latte"
+giscus_lang = "en"
 +++
 
 <!--

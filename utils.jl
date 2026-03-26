@@ -1042,12 +1042,27 @@ function hfun_note_comments()
   route = _current_route()
   route === nothing && return ""
   startswith(route, "notebooks/") || return ""
+  repo = _string_var(globvar("giscus_repo"))
+  repo_id = _string_var(globvar("giscus_repo_id"))
+  category = _string_var(globvar("giscus_category"))
+  category_id = _string_var(globvar("giscus_category_id"))
+  any(isnothing, (repo, repo_id, category, category_id)) && return ""
+  mapping = something(_string_var(globvar("giscus_mapping")), "pathname")
+  theme = something(_string_var(globvar("giscus_theme")), "light")
+  lang = something(_string_var(globvar("giscus_lang")), "ja")
   return """
-  <script src="https://utteranc.es/client.js"
-          repo="physicshinzui/my-website"
-          issue-term="pathname"
-          label="✨💬✨"
-          theme="github-light"
+  <script src="https://giscus.app/client.js"
+          data-repo="$(_html_escape(repo))"
+          data-repo-id="$(_html_escape(repo_id))"
+          data-category="$(_html_escape(category))"
+          data-category-id="$(_html_escape(category_id))"
+          data-mapping="$(_html_escape(mapping))"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="$(_html_escape(theme))"
+          data-lang="$(_html_escape(lang))"
           crossorigin="anonymous"
           async>
   </script>
