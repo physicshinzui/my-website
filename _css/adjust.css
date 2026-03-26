@@ -730,6 +730,7 @@ h5 a:visited { color: #1c1c1c !important; }
 }
 
 .admonition .thm,
+.admonition .def,
 .admonition .lemma,
 .admonition .prop,
 .admonition .results,
@@ -740,6 +741,7 @@ h5 a:visited { color: #1c1c1c !important; }
 }
 
 .admonition .thm .title,
+.admonition .def .title,
 .admonition .lemma .title,
 .admonition .prop .title,
 .admonition .results .title,
@@ -755,6 +757,7 @@ h5 a:visited { color: #1c1c1c !important; }
 }
 
 .admonition .thm .content,
+.admonition .def .content,
 .admonition .lemma .content,
 .admonition .prop .content,
 .admonition .results .content,
@@ -770,16 +773,21 @@ h5 a:visited { color: #1c1c1c !important; }
   border-left-color: #1d4ed8;
 }
 
+.admonition .def {
+  background: linear-gradient(90deg, #f8fafc 0%, #f8fafc 100%);
+  border-left-color: #f59e0b;
+}
+
 .admonition .lemma {
-  border-left-color: #2563eb;
+  border-left-color: #1d4ed8;
 }
 
 .admonition .prop {
-  border-left-color: #0891b2;
+  border-left-color: #1d4ed8;
 }
 
 .admonition .results {
-  border-left-color: #0f766e;
+  border-left-color: #1d4ed8;
 }
 
 .admonition .requirements {
